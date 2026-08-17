@@ -47,10 +47,5 @@ Designed for production resilience and strict data observability:
 
 ***
 
-## Local Development Setup
-
-### 1. Environment Configuration
-Clone the repository and configure your environment variables.
-
 ```bash
 git clone [https://github.com/timothyheeeee/Autonomous-Grading-Engine.git](https://github.com/timothyheeeee/Autonomous-Grading-Engine.git)
