@@ -1,43 +1,56 @@
-# Autonomous Group Assignment & Capability Tracking
+# Autonomous Grading Engine: Enterprise Agentic Control Plane
 
-Drop a peer-review CSV and a rubric screenshot. A three-brain LangGraph pipeline reads the image, extracts the team from the CSV, and converts every score into a **percentage**. Nothing is saved until you approve.
+**An open source multimodal AI orchestration engine designed to evaluate complex, asynchronous team contributions without mathematical hallucinations.**
 
-The UI starts empty. There is no preloaded roster.
+Most LLM wrappers naively attempt to calculate metrics in a single probabilistic prompt, leading to hallucinations and failed audits. This repository implements a strict "Three Brain" architecture, utilizing Large Language Models purely as semantic parsers while offloading all numerical normalization to a deterministic Python and Pandas pipeline. 
 
-## Run
+The result is a fully auditable, Human in the Loop (HITL) workflow that converts chaotic peer feedback into legally defensible, normalized percentage metrics.
 
-Backend:
+***
 
-```powershell
-cd "C:\Users\Timothy\Desktop\Adv AI Project\backend"
-python -m venv .venv
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-copy .env.example .env
-uvicorn app.main:app --reload --port 8000
-```
+## System Architecture: Deterministic Handoff
 
-Frontend:
+This system runs on a stateful LangGraph orchestration pipeline, executing three distinct nodes:
 
-```powershell
-cd "C:\Users\Timothy\Desktop\Adv AI Project\frontend"
-npm install
-npm run dev
-```
+*   **Vision Extractor Node (Multimodal LLM):** Ingests screenshot based academic rubrics. Translates complex visual matrices (categories, weights, and scoring rules) into a strictly typed Pydantic JSON schema.
+*   **Semantic Parser Node (Dynamic Entity Resolution):** Ingests raw, unstructured peer review CSVs. Operates with zero hardcoded entities. The agent dynamically extracts unique team member names from unstructured text, cross references feedback against the visual rubric, and outputs a normalized JSON payload of evaluation actions.
+*   **Deterministic Calculator Node (Pandas Data Engine):** The AI performs absolutely zero math. This isolated Python tool ingests the structured JSON, groups data by extracted entity, and calculates exact percentage normalizations.
 
-Open http://localhost:3000
+***
 
-Optional: set `OPENAI_API_KEY` in `backend/.env` to use GPT-4o vision on the rubric screenshot. Without a key, the screenshot is quality-checked and criterion labels are bound from the CSV.
+## Enterprise Grade Guardrails
 
-## Sample files
+Designed for production resilience and strict data observability:
 
-- `backend/data/sample_peer_reviews.csv`
-- Generate a rubric PNG (run from `backend` with the venv active):
+*   **Traceable Execution:** Every score variation maps directly via correlation IDs back to the specific row in the raw CSV. The UI provides a step by step "Audit Trail" exposing the agent's reasoning.
+*   **Human in the Loop Interrupts:** Utilizes LangGraph's interruption methodology. The pipeline pauses execution prior to database commits, requiring explicit admin authorization to finalize metrics.
+*   **State Checkpointing:** Graph state is persisted via Redis and MemorySaver. If a runtime timeout occurs, the system resumes processing from the exact interrupted node.
+*   **Risk Protection:** Implements input sanitization to strip prompt injection attempts from raw CSV uploads prior to LLM evaluation.
+*   **Cost Optimization:** Integrates an API circuit breaker that force halts execution after three failed entity extraction attempts, preventing infinite retry loops and API budget burn.
 
-```powershell
-.\.venv\Scripts\python.exe -c "from PIL import Image, ImageDraw; im=Image.new('RGB',(900,640),'white'); d=ImageDraw.Draw(im); y=40
-for t in ['Group Project Rubric','Scale 1-5','Collaboration','Communication','Technical Implementation','Data Wrangling','Reproducibility']:
- d.text((40,y),t,fill='black'); y+=48
-im.save('data/sample_rubric.png')"
-```
+***
+
+## Strict Data Visualization Constraints
+
+*   **No Raw Tallies:** The data pipeline is strictly prohibited from exposing raw counts. All evaluation metrics are mathematically normalized into percentages to ensure scale agnostic fairness.
+*   **Explicit Labeling:** The Next.js dashboard utilizes Recharts to render metrics, with exact percentages explicitly labeled directly on the UI components for absolute transparency.
+
+***
+
+## Tech Stack
+
+*   **AI Orchestration:** LangGraph, LangChain, Pydantic
+*   **Core Logic:** Python, FastAPI, Pandas
+*   **Frontend UI:** Next.js (TypeScript), Tailwind CSS, Framer Motion, Recharts
+*   **State Persistence:** SQLite (Dev), Redis (State Checkpointing)
+*   **Models:** OpenAI GPT-4o / Anthropic Claude 3.5 Sonnet
+
+***
+
+## Local Development Setup
+
+### 1. Environment Configuration
+Clone the repository and configure your environment variables.
+
+```bash
+git clone [https://github.com/timothyheeeee/Autonomous-Grading-Engine.git](https://github.com/timothyheeeee/Autonomous-Grading-Engine.git)
