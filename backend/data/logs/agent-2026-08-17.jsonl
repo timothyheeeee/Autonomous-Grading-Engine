@@ -1,0 +1,138 @@
+{"ts": "2026-08-17T07:19:21.437129+00:00", "correlation_id": "6d5f9b4b-7fd0-49a3-b8e7-1030d3f8a715", "event": "injection_stripped", "count": 2, "rules": ["ignore_previous", "forced_grade"]}
+{"ts": "2026-08-17T07:19:21.443591+00:00", "correlation_id": "65a677d8-9357-46fd-8d65-ae0d1d516f86", "event": "tool_parse_csv", "rows_parsed": 57, "missing": 2, "unrecognized": 0}
+{"ts": "2026-08-17T07:19:21.444182+00:00", "correlation_id": "b492d27d-05c5-49cf-9e06-1324db41da73", "event": "node_extract", "status": "ok", "failed_attempts": 0}
+{"ts": "2026-08-17T07:19:21.455655+00:00", "correlation_id": "test-hitl", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T07:19:21.456752+00:00", "correlation_id": "c1c3ccb5-6044-4e3c-b7eb-c8f19e4a20ff", "event": "node_calculate", "status": "ok", "lineage_keys": 25}
+{"ts": "2026-08-17T07:19:21.457970+00:00", "correlation_id": "99092d4f-3430-4e08-980f-14125c1f2015", "event": "node_evaluate", "anomalies": 0, "recommended": true}
+{"ts": "2026-08-17T07:19:21.462918+00:00", "correlation_id": "bdc05183-47ee-47e6-b82d-5d1c49b1d7f0", "event": "tool_parse_csv", "rows_parsed": 14, "missing": 2, "unrecognized": 0}
+{"ts": "2026-08-17T07:19:21.470964+00:00", "correlation_id": "corr-test", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T07:21:30.907113+00:00", "correlation_id": "de60a06d-8db6-48ae-b19a-f1d7ef53cbf6", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T07:21:31.025730+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "checkpointer_ready", "backend": "sqlite", "path": "data\\checkpoints.db"}
+{"ts": "2026-08-17T07:21:31.037877+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "pipeline_start", "thread_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "actor": "professor@university.edu", "rubric": "Data Science Group Project Rubric"}
+{"ts": "2026-08-17T07:21:31.046341+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "injection_stripped", "count": 2, "rules": ["ignore_previous", "forced_grade"]}
+{"ts": "2026-08-17T07:21:31.051857+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "tool_parse_csv", "rows_parsed": 57, "missing": 2, "unrecognized": 0}
+{"ts": "2026-08-17T07:21:31.052465+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "node_extract", "status": "ok", "failed_attempts": 0}
+{"ts": "2026-08-17T07:21:31.065355+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T07:21:31.066235+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "node_calculate", "status": "ok", "lineage_keys": 25}
+{"ts": "2026-08-17T07:21:31.067851+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "node_evaluate", "anomalies": 0, "recommended": true}
+{"ts": "2026-08-17T07:21:31.072776+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\12c89e05-1a64-4f54-b060-8aad15d9e1c9.json", "nodes": 3}
+{"ts": "2026-08-17T07:21:31.097163+00:00", "correlation_id": "12c89e05-1a64-4f54-b060-8aad15d9e1c9", "event": "grades_published", "approver": "professor@university.edu", "students": 5}
+{"ts": "2026-08-17T07:21:31.100541+00:00", "correlation_id": "183fb1f6-9785-4d86-b1f9-e10108998be9", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\12c89e05-1a64-4f54-b060-8aad15d9e1c9.json", "nodes": 4}
+{"ts": "2026-08-17T07:23:53.914016+00:00", "correlation_id": "10ff900f-732b-448a-b1e4-08fff223e648", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T07:27:07.701474+00:00", "correlation_id": "843c1c5f-048b-49d8-943f-25c15f038412", "event": "checkpointer_ready", "backend": "sqlite", "path": "data\\checkpoints.db"}
+{"ts": "2026-08-17T07:27:07.714753+00:00", "correlation_id": "843c1c5f-048b-49d8-943f-25c15f038412", "event": "pipeline_start", "thread_id": "843c1c5f-048b-49d8-943f-25c15f038412", "actor": "professor@university.edu", "rubric": "Data Science Group Project Rubric"}
+{"ts": "2026-08-17T07:27:07.725856+00:00", "correlation_id": "843c1c5f-048b-49d8-943f-25c15f038412", "event": "injection_stripped", "count": 2, "rules": ["ignore_previous", "forced_grade"]}
+{"ts": "2026-08-17T07:27:07.732620+00:00", "correlation_id": "843c1c5f-048b-49d8-943f-25c15f038412", "event": "tool_parse_csv", "rows_parsed": 57, "missing": 2, "unrecognized": 0}
+{"ts": "2026-08-17T07:27:07.733337+00:00", "correlation_id": "843c1c5f-048b-49d8-943f-25c15f038412", "event": "node_extract", "status": "ok", "failed_attempts": 0}
+{"ts": "2026-08-17T07:27:07.749649+00:00", "correlation_id": "843c1c5f-048b-49d8-943f-25c15f038412", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T07:27:07.751112+00:00", "correlation_id": "843c1c5f-048b-49d8-943f-25c15f038412", "event": "node_calculate", "status": "ok", "lineage_keys": 25}
+{"ts": "2026-08-17T07:27:07.752853+00:00", "correlation_id": "843c1c5f-048b-49d8-943f-25c15f038412", "event": "node_evaluate", "anomalies": 0, "recommended": true}
+{"ts": "2026-08-17T07:27:07.759409+00:00", "correlation_id": "843c1c5f-048b-49d8-943f-25c15f038412", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\843c1c5f-048b-49d8-943f-25c15f038412.json", "nodes": 3}
+{"ts": "2026-08-17T07:53:16.893765+00:00", "correlation_id": "7d873d86-7958-4b0e-850f-9c1be1404275", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T07:53:19.081905+00:00", "correlation_id": "d926b507-6edd-438a-a281-7d0f89876929", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T07:53:28.668284+00:00", "correlation_id": "1ac9552a-6d69-431d-9276-cd24a1732f16", "event": "tool_parse_csv", "roster": 4, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:53:28.676783+00:00", "correlation_id": "0de3cf33-770f-4b38-94c2-60ba9db493e1", "event": "tool_parse_csv", "roster": 4, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:53:28.707308+00:00", "correlation_id": "c1", "event": "tool_calculate_percentages", "students": 4}
+{"ts": "2026-08-17T07:53:29.038134+00:00", "correlation_id": "f542be7d-2de0-47a9-82f7-e965841e3ef5", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T07:53:29.074409+00:00", "correlation_id": "1c2a721b-eb55-441b-9212-5c30195ec5f1", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T07:53:29.075255+00:00", "correlation_id": "80221f07-ddd4-42cd-9ba9-4108f7951871", "event": "node_vision", "status": "ok", "criteria": 0, "source": "offline_quality_checked_screenshot"}
+{"ts": "2026-08-17T07:53:29.077177+00:00", "correlation_id": "55efeb36-3768-4ec5-9096-7f9a8e238900", "event": "injection_stripped", "count": 2}
+{"ts": "2026-08-17T07:53:29.082269+00:00", "correlation_id": "ae9e0b8a-d8cf-4716-95fd-57c5c509d3e2", "event": "tool_parse_csv", "roster": 4, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:53:29.082793+00:00", "correlation_id": "457c6920-aea3-4346-82c7-d6e9906f2ce2", "event": "node_semantic_parser", "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Ren\u00e9e Wong", "Timothy He"], "rows": 57}
+{"ts": "2026-08-17T07:53:29.096726+00:00", "correlation_id": "ux-hitl", "event": "tool_calculate_percentages", "students": 4}
+{"ts": "2026-08-17T07:53:29.097534+00:00", "correlation_id": "b54798d7-c070-467f-855f-43bad688c129", "event": "node_calculate", "status": "ok", "students": 4}
+{"ts": "2026-08-17T07:54:08.548765+00:00", "correlation_id": "6be0f822-439b-4796-8e0c-f3497c561078", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T07:54:08.618275+00:00", "correlation_id": "e8c14ebb-2486-4fdf-a14f-e653868d9c8b", "event": "pipeline_start", "thread_id": "e8c14ebb-2486-4fdf-a14f-e653868d9c8b", "actor": "admin@local"}
+{"ts": "2026-08-17T07:54:08.619044+00:00", "correlation_id": "7723417b-554c-430b-be95-ac5765759091", "event": "checkpointer_ready", "backend": "memory"}
+{"ts": "2026-08-17T07:54:08.624915+00:00", "correlation_id": "e798ae21-af7f-4c61-97ff-dd500e30d385", "event": "checkpointer_ready", "backend": "memory"}
+{"ts": "2026-08-17T07:54:08.660953+00:00", "correlation_id": "ba0f4f0b-1d35-41bd-94d3-62e8a108fdaf", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T07:54:08.661476+00:00", "correlation_id": "7dea6c19-f7d0-4c2e-beae-953ba7c56fd9", "event": "node_vision", "status": "ok", "criteria": 0, "source": "offline_quality_checked_screenshot"}
+{"ts": "2026-08-17T07:54:08.663046+00:00", "correlation_id": "ef635c60-3bb2-49f5-ac2f-be9179a6adc1", "event": "injection_stripped", "count": 2}
+{"ts": "2026-08-17T07:54:08.681794+00:00", "correlation_id": "6dd762f5-91d7-4437-8bed-cf8394094a8d", "event": "tool_parse_csv", "roster": 4, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:54:08.682374+00:00", "correlation_id": "ae696726-565b-4bf0-846c-f93028cbd19c", "event": "node_semantic_parser", "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Ren\u00e9e Wong", "Timothy He"], "rows": 57}
+{"ts": "2026-08-17T07:54:08.709225+00:00", "correlation_id": "e8c14ebb-2486-4fdf-a14f-e653868d9c8b", "event": "tool_calculate_percentages", "students": 4}
+{"ts": "2026-08-17T07:54:08.709809+00:00", "correlation_id": "0c6db069-92a4-4728-8ec0-c636a4203025", "event": "node_calculate", "status": "ok", "students": 4}
+{"ts": "2026-08-17T07:54:08.712785+00:00", "correlation_id": "037b34d9-d168-4064-a34d-6b151325647b", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\e8c14ebb-2486-4fdf-a14f-e653868d9c8b.json", "nodes": 3}
+{"ts": "2026-08-17T07:54:08.724101+00:00", "correlation_id": "a8945d02-7d41-47fd-9ceb-ec3f1418c919", "event": "pipeline_paused_or_done", "thread_id": "e8c14ebb-2486-4fdf-a14f-e653868d9c8b", "status": "pending_review"}
+{"ts": "2026-08-17T07:55:01.780871+00:00", "correlation_id": "1b0871ef-6380-4367-a609-ce853b04f653", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T07:55:01.841086+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "pipeline_start", "thread_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "actor": "admin@local"}
+{"ts": "2026-08-17T07:55:01.842002+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "checkpointer_ready", "backend": "memory"}
+{"ts": "2026-08-17T07:55:01.869170+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T07:55:01.869984+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "node_vision", "status": "ok", "criteria": 0, "source": "offline_quality_checked_screenshot"}
+{"ts": "2026-08-17T07:55:01.872479+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "injection_stripped", "count": 2}
+{"ts": "2026-08-17T07:55:01.887756+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "tool_parse_csv", "roster": 4, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:55:01.888727+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "node_semantic_parser", "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Ren\u00e9e Wong", "Timothy He"], "rows": 57}
+{"ts": "2026-08-17T07:55:01.906721+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "tool_calculate_percentages", "students": 4}
+{"ts": "2026-08-17T07:55:01.907457+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "node_calculate", "status": "ok", "students": 4}
+{"ts": "2026-08-17T07:55:01.910873+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\ea2605b3-1797-4042-a0f5-59dafd895c44.json", "nodes": 3}
+{"ts": "2026-08-17T07:55:01.920083+00:00", "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "event": "pipeline_paused_or_done", "thread_id": "ea2605b3-1797-4042-a0f5-59dafd895c44", "status": "pending_review"}
+{"ts": "2026-08-17T07:55:01.936298+00:00", "correlation_id": "5720b057-4e9a-4079-90d1-03d034f0fdbc", "event": "saved_to_database", "approver": "admin@local", "students": 4}
+{"ts": "2026-08-17T07:55:01.939284+00:00", "correlation_id": "5720b057-4e9a-4079-90d1-03d034f0fdbc", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\ea2605b3-1797-4042-a0f5-59dafd895c44.json", "nodes": 4}
+{"ts": "2026-08-17T07:55:18.715759+00:00", "correlation_id": "8f15f725-fe48-4227-a6ea-6d407a8287b8", "event": "tool_parse_csv", "roster": 4, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:56:50.263060+00:00", "correlation_id": "5a9fce94-0be1-4231-a356-2a9085b65f72", "event": "tool_parse_csv", "roster": 5, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:56:50.269250+00:00", "correlation_id": "7dbc0d5b-3f12-4e0d-b8af-20529cc9a238", "event": "tool_parse_csv", "roster": 5, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:56:50.279508+00:00", "correlation_id": "c1", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T07:56:50.298498+00:00", "correlation_id": "e3724bfc-01cd-4b01-83d6-3a26eaa95f60", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T07:56:50.324525+00:00", "correlation_id": "3cf6ed60-b4ff-4e9b-81dd-3ba8c64fac5c", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T07:56:50.325163+00:00", "correlation_id": "d5d01400-fb19-43c0-89f6-260e2b4bb167", "event": "node_vision", "status": "ok", "criteria": 0, "source": "offline_quality_checked_screenshot"}
+{"ts": "2026-08-17T07:56:50.326811+00:00", "correlation_id": "bc63800e-03e9-4a51-839f-7f4d35f78e43", "event": "injection_stripped", "count": 2}
+{"ts": "2026-08-17T07:56:50.331585+00:00", "correlation_id": "11ebe5c8-a96b-4d25-bdb0-fdd8deccd3fc", "event": "tool_parse_csv", "roster": 5, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:56:50.332026+00:00", "correlation_id": "29996acc-1216-4acf-a1fa-49d170465a28", "event": "node_semantic_parser", "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Renee Wong", "Ruby Yang", "Timothy He"], "rows": 57}
+{"ts": "2026-08-17T07:56:50.342098+00:00", "correlation_id": "ux-hitl", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T07:56:50.342671+00:00", "correlation_id": "1b2928f7-09de-45b7-a686-11df8c7ebd11", "event": "node_calculate", "status": "ok", "students": 5}
+{"ts": "2026-08-17T07:57:10.436887+00:00", "correlation_id": "e0bfe05a-71e8-4518-8a6c-d8475c5e380f", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T07:57:10.476047+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "pipeline_start", "thread_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "actor": "admin@local"}
+{"ts": "2026-08-17T07:57:10.476647+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "checkpointer_ready", "backend": "memory"}
+{"ts": "2026-08-17T07:57:10.496499+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T07:57:10.497024+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "node_vision", "status": "ok", "criteria": 0, "source": "offline_quality_checked_screenshot"}
+{"ts": "2026-08-17T07:57:10.498453+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "injection_stripped", "count": 2}
+{"ts": "2026-08-17T07:57:10.504487+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "tool_parse_csv", "roster": 5, "rows": 57, "skipped": 2}
+{"ts": "2026-08-17T07:57:10.505128+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "node_semantic_parser", "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Renee Wong", "Ruby Yang", "Timothy He"], "rows": 57}
+{"ts": "2026-08-17T07:57:10.516143+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T07:57:10.516659+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "node_calculate", "status": "ok", "students": 5}
+{"ts": "2026-08-17T07:57:10.518809+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\f418c45c-f63a-4a3b-af7e-f59a3841105b.json", "nodes": 3}
+{"ts": "2026-08-17T07:57:10.527323+00:00", "correlation_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "event": "pipeline_paused_or_done", "thread_id": "f418c45c-f63a-4a3b-af7e-f59a3841105b", "status": "pending_review"}
+{"ts": "2026-08-17T07:57:10.541714+00:00", "correlation_id": "a08333a8-e3f3-4b37-840d-40049dd645ce", "event": "saved_to_database", "approver": "admin@local", "students": 5}
+{"ts": "2026-08-17T07:57:10.543882+00:00", "correlation_id": "a08333a8-e3f3-4b37-840d-40049dd645ce", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\f418c45c-f63a-4a3b-af7e-f59a3841105b.json", "nodes": 4}
+{"ts": "2026-08-17T07:58:19.387478+00:00", "correlation_id": "3c09ca34-d7f8-4052-a633-6e941e723af7", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T07:58:20.998442+00:00", "correlation_id": "aa4f689d-298d-4ec7-a75c-1651bfcb301b", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T08:14:03.831160+00:00", "correlation_id": "a12ae86e-6657-42e2-b373-980a9602c208", "event": "pipeline_start", "thread_id": "a12ae86e-6657-42e2-b373-980a9602c208", "actor": "admin@local"}
+{"ts": "2026-08-17T08:14:03.832024+00:00", "correlation_id": "a12ae86e-6657-42e2-b373-980a9602c208", "event": "checkpointer_ready", "backend": "memory"}
+{"ts": "2026-08-17T08:14:03.913282+00:00", "correlation_id": "a12ae86e-6657-42e2-b373-980a9602c208", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T08:14:03.913970+00:00", "correlation_id": "a12ae86e-6657-42e2-b373-980a9602c208", "event": "node_vision", "status": "ok", "criteria": 0, "source": "offline_quality_checked_screenshot"}
+{"ts": "2026-08-17T08:14:03.935621+00:00", "correlation_id": "a12ae86e-6657-42e2-b373-980a9602c208", "event": "node_semantic_parser", "status": "error", "parsed": {"status": "error", "reason": "unreadable_data", "message": "CSV missing columns: ['criterion', 'score']"}}
+{"ts": "2026-08-17T08:14:03.936717+00:00", "correlation_id": "a12ae86e-6657-42e2-b373-980a9602c208", "event": "graph_halted", "reason": "unreadable_data", "vision_failures": 0, "tokens": 0}
+{"ts": "2026-08-17T08:14:03.938863+00:00", "correlation_id": "a12ae86e-6657-42e2-b373-980a9602c208", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\a12ae86e-6657-42e2-b373-980a9602c208.json", "nodes": 3}
+{"ts": "2026-08-17T08:14:03.948565+00:00", "correlation_id": "a12ae86e-6657-42e2-b373-980a9602c208", "event": "pipeline_paused_or_done", "thread_id": "a12ae86e-6657-42e2-b373-980a9602c208", "status": "error"}
+{"ts": "2026-08-17T08:19:20.349367+00:00", "correlation_id": "321b4774-c760-40ab-9747-cdf0f45feee5", "event": "semantic_extract", "source": "heuristic", "actions": 35, "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Renee Wong", "Ruby Yang", "Timothy He"]}
+{"ts": "2026-08-17T08:19:20.353406+00:00", "correlation_id": "a36a4e45-231b-4755-81ba-ca2ffdf6b677", "event": "semantic_extract", "source": "heuristic", "actions": 35, "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Renee Wong", "Ruby Yang", "Timothy He"]}
+{"ts": "2026-08-17T08:19:20.374283+00:00", "correlation_id": "c1", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T08:19:20.399762+00:00", "correlation_id": "caa4e0b0-ec77-420f-bd69-ec1f1bf9ede5", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T08:19:20.425134+00:00", "correlation_id": "1b6120f2-7899-4b19-8e01-8396012c59b3", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T08:19:20.425720+00:00", "correlation_id": "633e31d3-3ef0-4fce-8b69-92c751f1db6e", "event": "node_vision", "status": "ok", "criteria": 5, "source": "offline_quality_checked_screenshot"}
+{"ts": "2026-08-17T08:19:20.427116+00:00", "correlation_id": "c1789dd0-e6b8-498a-9ed2-31e3a2256296", "event": "injection_stripped", "count": 2}
+{"ts": "2026-08-17T08:19:20.430180+00:00", "correlation_id": "808e904a-73db-4689-b0d8-64ff2f8285c5", "event": "semantic_extract", "source": "heuristic", "actions": 35, "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Renee Wong", "Ruby Yang", "Timothy He"]}
+{"ts": "2026-08-17T08:19:20.430562+00:00", "correlation_id": "7b4f98ab-38da-423e-a9a7-d61f682fd245", "event": "node_semantic_parser", "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Renee Wong", "Ruby Yang", "Timothy He"], "actions": 35, "source": "heuristic"}
+{"ts": "2026-08-17T08:19:20.440155+00:00", "correlation_id": "ux-hitl", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T08:19:20.440703+00:00", "correlation_id": "03cbac86-f12f-4b46-a1ca-b561da2506da", "event": "node_calculate", "status": "ok", "students": 5}
+{"ts": "2026-08-17T08:19:51.160324+00:00", "correlation_id": "8567652d-818c-490f-9fa9-49f43434df99", "event": "pipeline_start", "thread_id": "8567652d-818c-490f-9fa9-49f43434df99", "actor": "admin@local"}
+{"ts": "2026-08-17T08:19:51.229761+00:00", "correlation_id": "8567652d-818c-490f-9fa9-49f43434df99", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T08:19:51.231470+00:00", "correlation_id": "8567652d-818c-490f-9fa9-49f43434df99", "event": "node_vision", "status": "ok", "criteria": 0, "source": "offline_quality_checked_screenshot"}
+{"ts": "2026-08-17T08:19:51.238826+00:00", "correlation_id": "8567652d-818c-490f-9fa9-49f43434df99", "event": "node_semantic_parser", "status": "error", "parsed": {"status": "error", "reason": "unreadable_data", "message": "CSV missing columns: ['criterion', 'score']"}}
+{"ts": "2026-08-17T08:19:51.242617+00:00", "correlation_id": "8567652d-818c-490f-9fa9-49f43434df99", "event": "graph_halted", "reason": "unreadable_data", "vision_failures": 0, "tokens": 0}
+{"ts": "2026-08-17T08:19:51.248029+00:00", "correlation_id": "8567652d-818c-490f-9fa9-49f43434df99", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\8567652d-818c-490f-9fa9-49f43434df99.json", "nodes": 3}
+{"ts": "2026-08-17T08:19:51.262060+00:00", "correlation_id": "8567652d-818c-490f-9fa9-49f43434df99", "event": "pipeline_paused_or_done", "thread_id": "8567652d-818c-490f-9fa9-49f43434df99", "status": "error"}
+{"ts": "2026-08-17T08:19:53.451408+00:00", "correlation_id": "a9f4e614-1e31-4032-bdd6-017d7729bfb5", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T08:19:55.186686+00:00", "correlation_id": "59935330-16c2-40a9-a8c4-33596cccb9db", "event": "app_startup", "environment": "development"}
+{"ts": "2026-08-17T08:19:55.210273+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "pipeline_start", "thread_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "actor": "admin@local"}
+{"ts": "2026-08-17T08:19:55.210718+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "checkpointer_ready", "backend": "memory"}
+{"ts": "2026-08-17T08:19:55.264689+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "vision_offline_fallback", "reason": "llm_unavailable_or_empty"}
+{"ts": "2026-08-17T08:19:55.265360+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "node_vision", "status": "ok", "criteria": 5, "source": "offline_quality_checked_screenshot"}
+{"ts": "2026-08-17T08:19:55.269574+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "semantic_extract", "source": "heuristic", "actions": 8, "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Renee Wong", "Ruby Yang", "Timothy He"]}
+{"ts": "2026-08-17T08:19:55.270011+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "node_semantic_parser", "roster": ["Clementine Gleeson-Cook", "Nico Napoli", "Renee Wong", "Ruby Yang", "Timothy He"], "actions": 8, "source": "heuristic"}
+{"ts": "2026-08-17T08:19:55.279640+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "tool_calculate_percentages", "students": 5}
+{"ts": "2026-08-17T08:19:55.280142+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "node_calculate", "status": "ok", "students": 5}
+{"ts": "2026-08-17T08:19:55.282222+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c.json", "nodes": 3}
+{"ts": "2026-08-17T08:19:55.291416+00:00", "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "event": "pipeline_paused_or_done", "thread_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c", "status": "pending_review"}
+{"ts": "2026-08-17T08:20:53.449531+00:00", "correlation_id": "a17db674-6a56-463d-90dd-eb3b147c2429", "event": "saved_to_database", "approver": "admin@local", "students": 5}
+{"ts": "2026-08-17T08:20:53.451964+00:00", "correlation_id": "a17db674-6a56-463d-90dd-eb3b147c2429", "event": "trace_persisted", "path": "C:\\Users\\Timothy\\Desktop\\Adv AI Project\\backend\\data\\traces\\5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c.json", "nodes": 4}

@@ -1,0 +1,283 @@
+{
+  "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c",
+  "ts": "2026-08-17T08:20:53.451294+00:00",
+  "node_transitions": [
+    {
+      "node": "vision_extractor",
+      "payload": {
+        "status": "ok",
+        "rubric_title": "Uploaded rubric screenshot",
+        "scale_max": 10.0,
+        "criteria": [
+          {
+            "name": "Collaboration",
+            "description": "Works reliably with peers and shares the load",
+            "max_score": 10.0,
+            "weight": 1.0
+          },
+          {
+            "name": "Communication",
+            "description": "Clear written and verbal scientific communication",
+            "max_score": 10.0,
+            "weight": 1.0
+          },
+          {
+            "name": "Technical Implementation",
+            "description": "Delivers working technical work",
+            "max_score": 10.0,
+            "weight": 1.0
+          },
+          {
+            "name": "Contribution",
+            "description": "Completes assigned tasks",
+            "max_score": 10.0,
+            "weight": 1.0
+          },
+          {
+            "name": "Professionalism",
+            "description": "Prepared, respectful, and on time",
+            "max_score": 10.0,
+            "weight": 1.0
+          }
+        ],
+        "source": "offline_quality_checked_screenshot"
+      },
+      "ast": {
+        "node_type": "VisionExtractor",
+        "dump": "extract_rubric_from_image(image)"
+      }
+    },
+    {
+      "node": "semantic_parser",
+      "payload": {
+        "roster": [
+          "Clementine Gleeson-Cook",
+          "Nico Napoli",
+          "Renee Wong",
+          "Ruby Yang",
+          "Timothy He"
+        ],
+        "action_preview": [
+          {
+            "student_name": "Clementine Gleeson-Cook",
+            "criterion": "Communication",
+            "score": 10.0,
+            "csv_row_index": 1,
+            "evidence": "Cleaned the initial CSV files, handled data extraction, wrote intro draft Great work, but was about 15 minutes late to one meeting. 2026-08-15 10:23:41 Data Analyst"
+          },
+          {
+            "student_name": "Clementine Gleeson-Cook",
+            "criterion": "Contribution",
+            "score": 10.0,
+            "csv_row_index": 1,
+            "evidence": "Cleaned the initial CSV files, handled data extraction, wrote intro draft Great work, but was about 15 minutes late to one meeting. 2026-08-15 10:23:41 Data Analyst"
+          },
+          {
+            "student_name": "Nico Napoli",
+            "criterion": "Collaboration",
+            "score": 5.0,
+            "csv_row_index": 2,
+            "evidence": "Built the python bar charts, structured the UI layout Charts initially used raw counts instead of percentages, but he fixed it quickly after team feedback. 2026-08-15 11:05:12 Visualization"
+          },
+          {
+            "student_name": "Renee Wong",
+            "criterion": "Collaboration",
+            "score": 10.0,
+            "csv_row_index": 3,
+            "evidence": "Researched memory B-cells and antigen interactions, drafted section 2 Very thorough biology research, highly reliable teammate. 2026-08-16 09:12:33 Researcher"
+          },
+          {
+            "student_name": "Ruby Yang",
+            "criterion": "Collaboration",
+            "score": 5.0,
+            "csv_row_index": 4,
+            "evidence": "Organized team meetings, formatted final presentation deck, checked citations Kept us all on track. Perfect formatting on the final submission. 2026-08-16 14:45:01 Project Manager"
+          },
+          {
+            "student_name": "Ruby Yang",
+            "criterion": "Communication",
+            "score": 5.0,
+            "csv_row_index": 4,
+            "evidence": "Organized team meetings, formatted final presentation deck, checked citations Kept us all on track. Perfect formatting on the final submission. 2026-08-16 14:45:01 Project Manager"
+          },
+          {
+            "student_name": "Timothy He",
+            "criterion": "Communication",
+            "score": 5.0,
+            "csv_row_index": 5,
+            "evidence": "Wrote the python script to convert tallies to percentages, added labels directly onto the chart bars Super fast turnaround on the backend, finished the data processing in 3 days instead of the planned 7. 2026-08-17 16:20:55 Backend Engineer"
+          },
+          {
+            "student_name": "Nico Napoli",
+            "criterion": "Communication",
+            "score": 5.0,
+            "csv_row_index": 6,
+            "evidence": "Assisted with the frontend charts Nico was a great communicator and helped translate our complex data into simple visuals. 2026-08-17 17:05:22 Visualization"
+          }
+        ],
+        "source": "heuristic",
+        "per_member": {
+          "Clementine Gleeson-Cook": 2,
+          "Nico Napoli": 2,
+          "Renee Wong": 1,
+          "Ruby Yang": 2,
+          "Timothy He": 1
+        }
+      },
+      "ast": {
+        "node_type": "SemanticExtractor",
+        "dump": "extract_scored_actions(csv, rubric_rules)"
+      },
+      "response": "{\"roster\": [\"Clementine Gleeson-Cook\", \"Nico Napoli\", \"Renee Wong\", \"Ruby Yang\", \"Timothy He\"], \"actions\": [{\"student_name\": \"Clementine Gleeson-Cook\", \"criterion\": \"Communication\", \"score\": 10.0, \"csv_row_index\": 1, \"evidence\": \"Cleaned the initial CSV files, handled data extraction, wrote intro draft Great work, but was about 15 minutes late to one meeting. 2026-08-15 10:23:41 Data Analyst\"}, {\"student_name\": \"Clementine Gleeson-Cook\", \"criterion\": \"Contribution\", \"score\": 10.0, \"csv_row_index\": 1, \"evidence\": \"Cleaned the initial CSV files, handled data extraction, wrote intro draft Great work, but was about 15 minutes late to one meeting. 2026-08-15 10:23:41 Data Analyst\"}, {\"student_name\": \"Nico Napoli\", \"criterion\": \"Collaboration\", \"score\": 5.0, \"csv_row_index\": 2, \"evidence\": \"Built the python bar charts, structured the UI layout Charts initially used raw counts instead of percentages, but he fixed it quickly after team feedback. 2026-08-15 11:05:12 Visualization\"}, {\"student_name\": \"Renee Wong\", \"criterion\": \"Collaboration\", \"score\": 10.0, \"csv_row_index\": 3, \"evidence\": \"Researched memory B-cells and antigen interactions, drafted section 2 Very thorough biology research, highly reliable teammate. 2026-08-16 09:12:33 Researcher\"}, {\"student_name\": \"Ruby Yang\", \"criterion\": \"Collaboration\", \"score\": 5.0, \"csv_row_index\": 4, \"evidence\": \"Organized team meetings, formatted final presentation deck, checked citations Kept us all on track. Perfect formatting on the final submission. 2026-08-16 14:45:01 Project Manager\"}, {\"student_name\": \"Ruby Yang\", \"criterion\": \"Communication\", \"score\": 5.0, \"csv_row_index\": 4, \"evidence\": \"Organized team meetings, formatted final presentation deck, checked citations Kept us all on track. Perfect formatting on the final submission. 2026-08-16 14:45:01 Project Manager\"}, {\"student_name\": \"Timothy He\", \"criterion\": \"Communication\", \"score\": 5.0, \"csv_row_index\": 5, \"evidence\": \"Wrote the python script to convert tallies to percentages, added labels directly onto the chart bars Super fast turnaround on the backend, finished the data processing in 3 days instead of the planned 7. 2026-08-17 16:20:55 Backend Engineer\"}, {\"student_name\": \"Nico Napoli\", \"criterion\": \"Communication\", \"score\": 5.0, \"csv_row_index\": 6, \"evidence\": \"Assisted with the frontend charts Nico was a great communicator and helped translate our complex data into simple visuals. 2026-08-17 17:05:22 Visualization\"}]}"
+    },
+    {
+      "node": "calculate",
+      "payload": {
+        "status": "ok",
+        "correlation_id": "5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c",
+        "rubric_title": "Uploaded rubric screenshot",
+        "students": [
+          {
+            "student_name": "Clementine Gleeson-Cook",
+            "criteria": [
+              {
+                "criterion": "Communication",
+                "percentage": 100.0,
+                "source_row_ids": [
+                  1
+                ]
+              },
+              {
+                "criterion": "Contribution",
+                "percentage": 100.0,
+                "source_row_ids": [
+                  1
+                ]
+              }
+            ],
+            "contribution_percentage": 36.4,
+            "overall_percentage": 100.0,
+            "audit": "LLM-scored evidence for Clementine Gleeson-Cook was converted into percentages. Contribution share is 36.4% of the team."
+          },
+          {
+            "student_name": "Nico Napoli",
+            "criteria": [
+              {
+                "criterion": "Collaboration",
+                "percentage": 50.0,
+                "source_row_ids": [
+                  2
+                ]
+              },
+              {
+                "criterion": "Communication",
+                "percentage": 50.0,
+                "source_row_ids": [
+                  6
+                ]
+              }
+            ],
+            "contribution_percentage": 18.2,
+            "overall_percentage": 50.0,
+            "audit": "LLM-scored evidence for Nico Napoli was converted into percentages. Contribution share is 18.2% of the team."
+          },
+          {
+            "student_name": "Renee Wong",
+            "criteria": [
+              {
+                "criterion": "Collaboration",
+                "percentage": 100.0,
+                "source_row_ids": [
+                  3
+                ]
+              }
+            ],
+            "contribution_percentage": 18.2,
+            "overall_percentage": 100.0,
+            "audit": "LLM-scored evidence for Renee Wong was converted into percentages. Contribution share is 18.2% of the team."
+          },
+          {
+            "student_name": "Ruby Yang",
+            "criteria": [
+              {
+                "criterion": "Collaboration",
+                "percentage": 50.0,
+                "source_row_ids": [
+                  4
+                ]
+              },
+              {
+                "criterion": "Communication",
+                "percentage": 50.0,
+                "source_row_ids": [
+                  4
+                ]
+              }
+            ],
+            "contribution_percentage": 18.2,
+            "overall_percentage": 50.0,
+            "audit": "LLM-scored evidence for Ruby Yang was converted into percentages. Contribution share is 18.2% of the team."
+          },
+          {
+            "student_name": "Timothy He",
+            "criteria": [
+              {
+                "criterion": "Communication",
+                "percentage": 50.0,
+                "source_row_ids": [
+                  5
+                ]
+              }
+            ],
+            "contribution_percentage": 9.1,
+            "overall_percentage": 50.0,
+            "audit": "LLM-scored evidence for Timothy He was converted into percentages. Contribution share is 9.1% of the team."
+          }
+        ],
+        "lineage": {
+          "Clementine Gleeson-Cook::Communication": [
+            1
+          ],
+          "Clementine Gleeson-Cook::Contribution": [
+            1
+          ],
+          "Nico Napoli::Collaboration": [
+            2
+          ],
+          "Nico Napoli::Communication": [
+            6
+          ],
+          "Renee Wong::Collaboration": [
+            3
+          ],
+          "Ruby Yang::Collaboration": [
+            4
+          ],
+          "Ruby Yang::Communication": [
+            4
+          ],
+          "Timothy He::Communication": [
+            5
+          ]
+        }
+      },
+      "ast": {
+        "node_type": "Module",
+        "dump": "Module(body=[FunctionDef(name='calculate_normalized_percentages', args=arguments(args=[arg(arg='actions', annotation=Subscript(value=Name(id='list', ctx=Load()), slice=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()), ctx=Load())), arg(arg='correlation_id', annotation=Name(id='str', ctx=Load())), arg(arg='extracted_rules', annotation=BinOp(left=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()), op=BitOr(), right=Constant(value=None))), arg(arg='max_score', annotation=Name(id='float', ctx=Load())), arg(arg='roster', annotation=BinOp(left=Subscript(value=Name(id='list', ctx=Load()), slice=Name(id='str', ctx=Load()), ctx=Load()), op=BitOr(), right=Constant(value=None))), arg(arg='rubric_title', annotation=Name(id='str', ctx=Load()))], defaults=[Constant(value=None), Constant(value=10.0), Constant(value=None), Constant(value='Uploaded rubric')]), body=[Expr(value=Constant(value='Deterministic percentage math over LLM JSON only.')), Try(body=[If(test=UnaryOp(op=Not(), operand=Name(id='actions', ctx=Load())), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='No scored actions were handed off.')]))]), Assign(targets=[Name(id='df', ctx=Store())], value=Call(func=Attribute(value=Name(id='pd', ctx=Load()), attr='DataFrame', ctx=Load()), args=[Name(id='actions', ctx=Load())])), If(test=BoolOp(op=And(), values=[Compare(left=Constant(value='student_name'), ops=[NotIn()], comparators=[Attribute(value=Name(id='df', ctx=Load()), attr='columns', ctx=Load())]), Compare(left=Constant(value='reviewee'), ops=[In()], comparators=[Attribute(value=Name(id='df', ctx=Load()), attr='columns', ctx=Load())])]), body=[Assign(targets=[Name(id='df', ctx=Store())], value=Call(func=Attribute(value=Name(id='df', ctx=Load()), attr='rename', ctx=Load()), keywords=[keyword(arg='columns', value=Dict(keys=[Constant(value='reviewee')], values=[Constant(value='student_name')]))]))]), If(test=BoolOp(op=And(), values=[Compare(left=Constant(value='score'), ops=[NotIn()], comparators=[Attribute(value=Name(id='df', ctx=Load()), attr='columns', ctx=Load())]), Compare(left=Constant(value='raw_score'), ops=[In()], comparators=[Attribute(value=Name(id='df', ctx=Load()), attr='columns', ctx=Load())])]), body=[Assign(targets=[Name(id='df', ctx=Store())], value=Call(func=Attribute(value=Name(id='df', ctx=Load()), attr='rename', ctx=Load()), keywords=[keyword(arg='columns', value=Dict(keys=[Constant(value='raw_score')], values=[Constant(value='score')]))]))]), Assign(targets=[Name(id='required', ctx=Store())], value=Set(elts=[Constant(value='student_name'), Constant(value='criterion'), Constant(value='score')])), If(test=BinOp(left=Name(id='required', ctx=Load()), op=Sub(), right=Call(func=Name(id='set', ctx=Load()), args=[Attribute(value=Name(id='df', ctx=Load()), attr='columns', ctx=Load())])), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='LLM payload is missing student_name, criterion, or score.')]))]), Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='score'), ctx=Store())], value=Call(func=Attribute(value=Name(id='pd', ctx=Load()), attr='to_numeric', ctx=Load()), args=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='score'), ctx=Load())], keywords=[keyword(arg='errors', value=Constant(value='coerce'))])), If(test=Compare(left=Constant(value='csv_row_index'), ops=[In()], comparators=[Attribute(value=Name(id='df', ctx=Load()), attr='columns', ctx=Load())]), body=[Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='csv_row_index'), ctx=Store())], value=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='pd', ctx=Load()), attr='to_numeric', ctx=Load()), args=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='csv_row_index'), ctx=Load())], keywords=[keyword(arg='errors', value=Constant(value='coerce'))]), attr='fillna', ctx=Load()), args=[Constant(value=0)]))], orelse=[Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='csv_row_index'), ctx=Store())], value=Call(func=Name(id='range', ctx=Load()), args=[Constant(value=1), BinOp(left=Call(func=Name(id='len', ctx=Load()), args=[Name(id='df', ctx=Load())]), op=Add(), right=Constant(value=1))]))]), Assign(targets=[Name(id='df', ctx=Store())], value=Call(func=Attribute(value=Name(id='df', ctx=Load()), attr='dropna', ctx=Load()), keywords=[keyword(arg='subset', value=List(elts=[Constant(value='score'), Constant(value='student_name'), Constant(value='criterion')], ctx=Load()))])), If(test=Attribute(value=Name(id='df', ctx=Load()), attr='empty', ctx=Load()), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='Scored JSON had no usable rows.')]))]), Assign(targets=[Name(id='ceiling', ctx=Store())], value=Call(func=Name(id='float', ctx=Load()), args=[BoolOp(op=Or(), values=[Call(func=Attribute(value=BoolOp(op=Or(), values=[Name(id='extracted_rules', ctx=Load()), Dict()]), attr='get', ctx=Load()), args=[Constant(value='scale_max')]), Name(id='max_score', ctx=Load()), Constant(value=10.0)])])), If(test=Compare(left=Name(id='ceiling', ctx=Load()), ops=[LtE()], comparators=[Constant(value=0)]), body=[Assign(targets=[Name(id='ceiling', ctx=Store())], value=Constant(value=10.0))]), Assign(targets=[Name(id='weights', ctx=Store())], value=DictComp(key=Call(func=Name(id='str', ctx=Load()), args=[Call(func=Attribute(value=Name(id='item', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='name')])]), value=Call(func=Name(id='float', ctx=Load()), args=[BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='item', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='weight')]), Constant(value=1.0)])]), generators=[comprehension(target=Name(id='item', ctx=Store()), iter=BoolOp(op=Or(), values=[Call(func=Attribute(value=BoolOp(op=Or(), values=[Name(id='extracted_rules', ctx=Load()), Dict()]), attr='get', ctx=Load()), args=[Constant(value='criteria')]), List(ctx=Load())]), ifs=[Call(func=Attribute(value=Name(id='item', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='name')])], is_async=0)])), Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='weight'), ctx=Store())], value=Call(func=Attribute(value=Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='criterion'), ctx=Load()), attr='map', ctx=Load()), args=[Lambda(args=arguments(args=[arg(arg='name')]), body=Call(func=Attribute(value=Name(id='weights', ctx=Load()), attr='get', ctx=Load()), args=[Call(func=Name(id='str', ctx=Load()), args=[Name(id='name', ctx=Load())]), Constant(value=1.0)]))])), Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='row_percentage'), ctx=Store())], value=BinOp(left=BinOp(left=Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='score'), ctx=Load()), op=Div(), right=Name(id='ceiling', ctx=Load())), op=Mult(), right=Constant(value=100.0))), Assign(targets=[Name(id='grouped', ctx=Store())], value=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='df', ctx=Load()), attr='groupby', ctx=Load()), args=[List(elts=[Constant(value='student_name'), Constant(value='criterion')], ctx=Load())], keywords=[keyword(arg='as_index', value=Constant(value=False))]), attr='agg', ctx=Load()), keywords=[keyword(arg='percentage', value=Tuple(elts=[Constant(value='row_percentage'), Constant(value='mean')], ctx=Load())), keyword(arg='source_row_ids', value=Tuple(elts=[Constant(value='csv_row_index'), Lambda(args=arguments(args=[arg(arg='series')]), body=Call(func=Name(id='sorted', ctx=Load()), args=[SetComp(elt=Call(func=Name(id='int', ctx=Load()), args=[Name(id='v', ctx=Load())]), generators=[comprehension(target=Name(id='v', ctx=Store()), iter=Name(id='series', ctx=Load()), ifs=[Compare(left=Call(func=Name(id='int', ctx=Load()), args=[Name(id='v', ctx=Load())]), ops=[Gt()], comparators=[Constant(value=0)])], is_async=0)])]))], ctx=Load()))])), Assign(targets=[Name(id='student_mass', ctx=Store())], value=Call(func=Attribute(value=Subscript(value=Call(func=Attribute(value=Name(id='df', ctx=Load()), attr='groupby', ctx=Load()), args=[Constant(value='student_name')]), slice=Constant(value='row_percentage'), ctx=Load()), attr='sum', ctx=Load()))), Assign(targets=[Name(id='team_mass', ctx=Store())], value=Call(func=Name(id='float', ctx=Load()), args=[Call(func=Attribute(value=Name(id='student_mass', ctx=Load()), attr='sum', ctx=Load()))])), If(test=Compare(left=Name(id='team_mass', ctx=Load()), ops=[LtE()], comparators=[Constant(value=0)]), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='Cannot normalize a zero team mass.')]))]), Assign(targets=[Name(id='names', ctx=Store())], value=Call(func=Name(id='list', ctx=Load()), args=[BoolOp(op=Or(), values=[Name(id='roster', ctx=Load()), Call(func=Name(id='sorted', ctx=Load()), args=[SetComp(elt=Call(func=Name(id='str', ctx=Load()), args=[Name(id='name', ctx=Load())]), generators=[comprehension(target=Name(id='name', ctx=Store()), iter=Call(func=Attribute(value=Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='student_name'), ctx=Load()), attr='tolist', ctx=Load())), is_async=0)])])])])), AnnAssign(target=Name(id='students', ctx=Store()), annotation=Subscript(value=Name(id='list', ctx=Load()), slice=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()), ctx=Load()), value=List(ctx=Load()), simple=1), AnnAssign(target=Name(id='lineage', ctx=Store()), annotation=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Subscript(value=Name(id='list', ctx=Load()), slice=Name(id='int', ctx=Load()), ctx=Load())], ctx=Load()), ctx=Load()), value=Dict(), simple=1), For(target=Name(id='name', ctx=Store()), iter=Name(id='names', ctx=Load()), body=[Assign(targets=[Name(id='subset', ctx=Store())], value=Subscript(value=Name(id='grouped', ctx=Load()), slice=Compare(left=Subscript(value=Name(id='grouped', ctx=Load()), slice=Constant(value='student_name'), ctx=Load()), ops=[Eq()], comparators=[Name(id='name', ctx=Load())]), ctx=Load())), Assign(targets=[Name(id='criteria', ctx=Store())], value=ListComp(elt=Dict(keys=[Constant(value='criterion'), Constant(value='percentage'), Constant(value='source_row_ids')], values=[Attribute(value=Name(id='row', ctx=Load()), attr='criterion', ctx=Load()), Call(func=Name(id='_round_pct', ctx=Load()), args=[Call(func=Name(id='min', ctx=Load()), args=[Attribute(value=Name(id='row', ctx=Load()), attr='percentage', ctx=Load()), Constant(value=100)])]), Attribute(value=Name(id='row', ctx=Load()), attr='source_row_ids', ctx=Load())]), generators=[comprehension(target=Name(id='row', ctx=Store()), iter=Call(func=Attribute(value=Name(id='subset', ctx=Load()), attr='itertuples', ctx=Load()), keywords=[keyword(arg='index', value=Constant(value=False))]), is_async=0)])), Assign(targets=[Name(id='overall', ctx=Store())], value=IfExp(test=UnaryOp(op=Not(), operand=Attribute(value=Name(id='subset', ctx=Load()), attr='empty', ctx=Load())), body=Call(func=Name(id='_round_pct', ctx=Load()), args=[Call(func=Name(id='float', ctx=Load()), args=[Call(func=Attribute(value=Subscript(value=Name(id='subset', ctx=Load()), slice=Constant(value='percentage'), ctx=Load()), attr='mean', ctx=Load()))])]), orelse=Constant(value=0.0))), Assign(targets=[Name(id='contribution', ctx=Store())], value=Call(func=Name(id='_round_pct', ctx=Load()), args=[BinOp(left=BinOp(left=Call(func=Name(id='float', ctx=Load()), args=[Call(func=Attribute(value=Name(id='student_mass', ctx=Load()), attr='get', ctx=Load()), args=[Name(id='name', ctx=Load()), Constant(value=0.0)])]), op=Div(), right=Name(id='team_mass', ctx=Load())), op=Mult(), right=Constant(value=100.0))])), For(target=Name(id='item', ctx=Store()), iter=Name(id='criteria', ctx=Load()), body=[Assign(targets=[Subscript(value=Name(id='lineage', ctx=Load()), slice=JoinedStr(values=[FormattedValue(value=Name(id='name', ctx=Load()), conversion=-1), Constant(value='::'), FormattedValue(value=Subscript(value=Name(id='item', ctx=Load()), slice=Constant(value='criterion'), ctx=Load()), conversion=-1)]), ctx=Store())], value=Subscript(value=Name(id='item', ctx=Load()), slice=Constant(value='source_row_ids'), ctx=Load()))]), Expr(value=Call(func=Attribute(value=Name(id='students', ctx=Load()), attr='append', ctx=Load()), args=[Dict(keys=[Constant(value='student_name'), Constant(value='criteria'), Constant(value='contribution_percentage'), Constant(value='overall_percentage'), Constant(value='audit')], values=[Name(id='name', ctx=Load()), Name(id='criteria', ctx=Load()), Name(id='contribution', ctx=Load()), Name(id='overall', ctx=Load()), JoinedStr(values=[Constant(value='LLM-scored evidence for '), FormattedValue(value=Name(id='name', ctx=Load()), conversion=-1), Constant(value=' was converted into percentages. Contribution share is '), FormattedValue(value=Name(id='contribution', ctx=Load()), conversion=-1), Constant(value='% of the team.')])])]))]), Expr(value=Call(func=Name(id='log_event', ctx=Load()), args=[Constant(value='tool_calculate_percentages')], keywords=[keyword(arg='students', value=Call(func=Name(id='len', ctx=Load()), args=[Name(id='students', ctx=Load())])), keyword(arg='correlation_id', value=Name(id='correlation_id', ctx=Load()))])), Return(value=Dict(keys=[Constant(value='status'), Constant(value='correlation_id'), Constant(value='rubric_title'), Constant(value='students'), Constant(value='lineage')], values=[Constant(value='ok'), Name(id='correlation_id', ctx=Load()), BoolOp(op=Or(), values=[Name(id='rubric_title', ctx=Load()), Call(func=Attribute(value=BoolOp(op=Or(), values=[Name(id='extracted_rules', ctx=Load()), Dict()]), attr='get', ctx=Load()), args=[Constant(value='rubric_title')]), Constant(value='Uploaded rubric')]), Name(id='students', ctx=Load()), Name(id='lineage', ctx=Load())]))], handlers=[ExceptHandler(type=Name(id='Exception', ctx=Load()), name='exc', body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), JoinedStr(values=[Constant(value='Percentage calculation failed: '), FormattedValue(value=Name(id='exc', ctx=Load()), conversion=-1)])]))])])], returns=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()))])"
+      },
+      "response": "{\"status\": \"ok\", \"correlation_id\": \"5d4eb26b-4ac7-41db-9e0d-5aab8c4a3b2c\", \"rubric_title\": \"Uploaded rubric screenshot\", \"students\": [{\"student_name\": \"Clementine Gleeson-Cook\", \"criteria\": [{\"criterion\": \"Communication\", \"percentage\": 100.0, \"source_row_ids\": [1]}, {\"criterion\": \"Contribution\", \"percentage\": 100.0, \"source_row_ids\": [1]}], \"contribution_percentage\": 36.4, \"overall_percentage\": 100.0, \"audit\": \"LLM-scored evidence for Clementine Gleeson-Cook was converted into percentages. Contribution share is 36.4% of the team.\"}, {\"student_name\": \"Nico Napoli\", \"criteria\": [{\"criterion\": \"Collaboration\", \"percentage\": 50.0, \"source_row_ids\": [2]}, {\"criterion\": \"Communication\", \"percentage\": 50.0, \"source_row_ids\": [6]}], \"contribution_percentage\": 18.2, \"overall_percentage\": 50.0, \"audit\": \"LLM-scored evidence for Nico Napoli was converted into percentages. Contribution share is 18.2% of the team.\"}, {\"student_name\": \"Renee Wong\", \"criteria\": [{\"criterion\": \"Collaboration\", \"percentage\": 100.0, \"source_row_ids\": [3]}], \"contribution_percentage\": 18.2, \"overall_percentage\": 100.0, \"audit\": \"LLM-scored evidence for Renee Wong was converted into percentages. Contribution share is 18.2% of the team.\"}, {\"student_name\": \"Ruby Yang\", \"criteria\": [{\"criterion\": \"Collaboration\", \"percentage\": 50.0, \"source_row_ids\": [4]}, {\"criterion\": \"Communication\", \"percentage\": 50.0, \"source_row_ids\": [4]}], \"contribution_percentage\": 18.2, \"overall_percentage\": 50.0, \"audit\": \"LLM-scored evidence for Ruby Yang was converted into percentages. Contribution share is 18.2% of the team.\"}, {\"student_name\": \"Timothy He\", \"criteria\": [{\"criterion\": \"Communication\", \"percentage\": 50.0, \"source_row_ids\": [5]}], \"contribution_percentage\": 9.1, \"overall_percentage\": 50.0, \"audit\": \"LLM-scored evidence for Timothy He was converted into percentages. Contribution share is 9.1% of the team.\"}], \"lineage\": {\"Clementine Gleeson-Cook::Communication\": [1], \"Clementine Gleeson-Cook::Contribution\": [1], \"Nico Napoli::Collaboration\": [2], \"Nico Napoli::Communication\": [6], \"Renee Wong::Collaboration\": [3], \"Ruby Yang::Collaboration\": [4], \"Ruby Yang::Communication\": [4], \"Timothy He::Communication\": [5]}}"
+    },
+    {
+      "node": "save_to_database",
+      "payload": {
+        "students": 5,
+        "approver": "admin@local"
+      },
+      "ast": {
+        "node_type": "Save",
+        "dump": "interrupt_before=['save_to_database']"
+      }
+    }
+  ],
+  "status": "published"
+}

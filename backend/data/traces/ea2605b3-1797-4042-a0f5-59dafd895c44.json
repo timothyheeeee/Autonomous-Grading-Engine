@@ -1,0 +1,380 @@
+{
+  "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44",
+  "ts": "2026-08-17T07:55:01.938529+00:00",
+  "node_transitions": [
+    {
+      "node": "vision_extractor",
+      "payload": {
+        "status": "ok",
+        "rubric_title": "Uploaded rubric screenshot",
+        "scale_max": 5.0,
+        "criteria": [],
+        "source": "offline_quality_checked_screenshot"
+      },
+      "ast": {
+        "node_type": "VisionExtractor",
+        "dump": "extract_rubric_from_image(image)"
+      }
+    },
+    {
+      "node": "semantic_parser",
+      "payload": {
+        "roster": [
+          "Clementine Gleeson-Cook",
+          "Nico Napoli",
+          "Ren\u00e9e Wong",
+          "Timothy He"
+        ],
+        "row_count": 57,
+        "skipped": [
+          "Row 49",
+          "Row 50"
+        ]
+      },
+      "ast": {
+        "node_type": "Module",
+        "dump": "Module(body=[FunctionDef(name='parse_peer_review_csv', args=arguments(args=[arg(arg='csv_text', annotation=Name(id='str', ctx=Load())), arg(arg='extracted_rules', annotation=BinOp(left=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()), op=BitOr(), right=Constant(value=None)))], defaults=[Constant(value=None)]), body=[Expr(value=Constant(value='Dynamic entity extraction. No pre-existing student database. No math.')), Try(body=[Assign(targets=[Name(id='df', ctx=Store())], value=Call(func=Attribute(value=Name(id='pd', ctx=Load()), attr='read_csv', ctx=Load()), args=[Call(func=Name(id='StringIO', ctx=Load()), args=[Name(id='csv_text', ctx=Load())])], keywords=[keyword(arg='dtype', value=Name(id='str', ctx=Load())), keyword(arg='keep_default_na', value=Constant(value=False))])), Assign(targets=[Name(id='df', ctx=Store())], value=Call(func=Name(id='_normalize_columns', ctx=Load()), args=[Name(id='df', ctx=Load())])), Assign(targets=[Name(id='required', ctx=Store())], value=List(elts=[Constant(value='reviewer'), Constant(value='reviewee'), Constant(value='criterion'), Constant(value='score')], ctx=Load())), Assign(targets=[Name(id='missing_cols', ctx=Store())], value=ListComp(elt=Name(id='col', ctx=Load()), generators=[comprehension(target=Name(id='col', ctx=Store()), iter=Name(id='required', ctx=Load()), ifs=[Compare(left=Name(id='col', ctx=Load()), ops=[NotIn()], comparators=[Attribute(value=Name(id='df', ctx=Load()), attr='columns', ctx=Load())])], is_async=0)])), If(test=Name(id='missing_cols', ctx=Load()), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), JoinedStr(values=[Constant(value='CSV missing columns: '), FormattedValue(value=Name(id='missing_cols', ctx=Load()), conversion=-1)])]))]), AnnAssign(target=Name(id='raw_names', ctx=Store()), annotation=Subscript(value=Name(id='list', ctx=Load()), slice=Name(id='str', ctx=Load()), ctx=Load()), value=List(ctx=Load()), simple=1), For(target=Name(id='col', ctx=Store()), iter=Tuple(elts=[Constant(value='reviewer'), Constant(value='reviewee')], ctx=Load()), body=[Expr(value=Call(func=Attribute(value=Name(id='raw_names', ctx=Load()), attr='extend', ctx=Load()), args=[GeneratorExp(elt=Call(func=Attribute(value=Call(func=Name(id='str', ctx=Load()), args=[Name(id='v', ctx=Load())]), attr='strip', ctx=Load())), generators=[comprehension(target=Name(id='v', ctx=Store()), iter=Call(func=Attribute(value=Subscript(value=Name(id='df', ctx=Load()), slice=Name(id='col', ctx=Load()), ctx=Load()), attr='tolist', ctx=Load())), ifs=[Call(func=Attribute(value=Call(func=Name(id='str', ctx=Load()), args=[Name(id='v', ctx=Load())]), attr='strip', ctx=Load()))], is_async=0)])]))]), Assign(targets=[Name(id='alias_map', ctx=Store())], value=Call(func=Name(id='cluster_names', ctx=Load()), args=[Name(id='raw_names', ctx=Load())])), Assign(targets=[Name(id='roster', ctx=Store())], value=Call(func=Name(id='sorted', ctx=Load()), args=[Call(func=Name(id='set', ctx=Load()), args=[Call(func=Attribute(value=Name(id='alias_map', ctx=Load()), attr='values', ctx=Load()))])])), If(test=UnaryOp(op=Not(), operand=Name(id='roster', ctx=Load())), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='No team member names could be extracted.')]))]), Assign(targets=[Name(id='rules', ctx=Store())], value=BoolOp(op=Or(), values=[Name(id='extracted_rules', ctx=Load()), Dict()])), Assign(targets=[Name(id='criteria_map', ctx=Store())], value=Call(func=Name(id='_criterion_lookup', ctx=Load()), args=[Name(id='rules', ctx=Load())])), Assign(targets=[Name(id='scale', ctx=Store())], value=Call(func=Name(id='float', ctx=Load()), args=[BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='rules', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='scale_max')]), Constant(value=5.0)])])), AnnAssign(target=Name(id='records', ctx=Store()), annotation=Subscript(value=Name(id='list', ctx=Load()), slice=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()), ctx=Load()), value=List(ctx=Load()), simple=1), AnnAssign(target=Name(id='skipped', ctx=Store()), annotation=Subscript(value=Name(id='list', ctx=Load()), slice=Name(id='str', ctx=Load()), ctx=Load()), value=List(ctx=Load()), simple=1), For(target=Tuple(elts=[Name(id='offset', ctx=Store()), Name(id='row', ctx=Store())], ctx=Store()), iter=Call(func=Attribute(value=Name(id='df', ctx=Load()), attr='iterrows', ctx=Load())), body=[Assign(targets=[Name(id='csv_row_index', ctx=Store())], value=BinOp(left=Call(func=Name(id='int', ctx=Load()), args=[Name(id='offset', ctx=Load())]), op=Add(), right=Constant(value=1))), Assign(targets=[Name(id='reviewer_raw', ctx=Store())], value=Call(func=Attribute(value=Call(func=Name(id='str', ctx=Load()), args=[Call(func=Attribute(value=Name(id='row', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='reviewer'), Constant(value='')])]), attr='strip', ctx=Load()))), Assign(targets=[Name(id='reviewee_raw', ctx=Store())], value=Call(func=Attribute(value=Call(func=Name(id='str', ctx=Load()), args=[Call(func=Attribute(value=Name(id='row', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='reviewee'), Constant(value='')])]), attr='strip', ctx=Load()))), Assign(targets=[Name(id='criterion_raw', ctx=Store())], value=Call(func=Attribute(value=Call(func=Name(id='str', ctx=Load()), args=[Call(func=Attribute(value=Name(id='row', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='criterion'), Constant(value='')])]), attr='strip', ctx=Load()))), Assign(targets=[Name(id='score_raw', ctx=Store())], value=Call(func=Attribute(value=Call(func=Name(id='str', ctx=Load()), args=[Call(func=Attribute(value=Name(id='row', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='score'), Constant(value='')])]), attr='strip', ctx=Load()))), Assign(targets=[Name(id='comment', ctx=Store())], value=BoolOp(op=Or(), values=[Call(func=Attribute(value=Call(func=Name(id='str', ctx=Load()), args=[Call(func=Attribute(value=Name(id='row', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='comment'), Constant(value='')])]), attr='strip', ctx=Load())), Constant(value=None)])), If(test=BoolOp(op=Or(), values=[UnaryOp(op=Not(), operand=Name(id='reviewer_raw', ctx=Load())), UnaryOp(op=Not(), operand=Name(id='reviewee_raw', ctx=Load())), UnaryOp(op=Not(), operand=Name(id='criterion_raw', ctx=Load())), UnaryOp(op=Not(), operand=Name(id='score_raw', ctx=Load()))]), body=[Expr(value=Call(func=Attribute(value=Name(id='skipped', ctx=Load()), attr='append', ctx=Load()), args=[JoinedStr(values=[Constant(value='Row '), FormattedValue(value=Name(id='csv_row_index', ctx=Load()), conversion=-1)])])), Continue()]), Try(body=[Assign(targets=[Name(id='score', ctx=Store())], value=Call(func=Name(id='float', ctx=Load()), args=[Name(id='score_raw', ctx=Load())]))], handlers=[ExceptHandler(type=Name(id='ValueError', ctx=Load()), body=[Expr(value=Call(func=Attribute(value=Name(id='skipped', ctx=Load()), attr='append', ctx=Load()), args=[JoinedStr(values=[Constant(value='Row '), FormattedValue(value=Name(id='csv_row_index', ctx=Load()), conversion=-1)])])), Continue()])]), Assign(targets=[Name(id='reviewer', ctx=Store())], value=BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='alias_map', ctx=Load()), attr='get', ctx=Load()), args=[Name(id='reviewer_raw', ctx=Load())]), Call(func=Attribute(value=Name(id='alias_map', ctx=Load()), attr='get', ctx=Load()), args=[Call(func=Attribute(value=Name(id='reviewer_raw', ctx=Load()), attr='casefold', ctx=Load()))])])), Assign(targets=[Name(id='reviewee', ctx=Store())], value=BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='alias_map', ctx=Load()), attr='get', ctx=Load()), args=[Name(id='reviewee_raw', ctx=Load())]), Call(func=Attribute(value=Name(id='alias_map', ctx=Load()), attr='get', ctx=Load()), args=[Call(func=Attribute(value=Name(id='reviewee_raw', ctx=Load()), attr='casefold', ctx=Load()))])])), If(test=BoolOp(op=Or(), values=[UnaryOp(op=Not(), operand=Name(id='reviewer', ctx=Load())), UnaryOp(op=Not(), operand=Name(id='reviewee', ctx=Load()))]), body=[Expr(value=Call(func=Attribute(value=Name(id='skipped', ctx=Load()), attr='append', ctx=Load()), args=[JoinedStr(values=[Constant(value='Row '), FormattedValue(value=Name(id='csv_row_index', ctx=Load()), conversion=-1)])])), Continue()]), Assign(targets=[Name(id='criterion', ctx=Store())], value=Call(func=Attribute(value=Name(id='criteria_map', ctx=Load()), attr='get', ctx=Load()), args=[Call(func=Attribute(value=Name(id='criterion_raw', ctx=Load()), attr='casefold', ctx=Load())), Name(id='criterion_raw', ctx=Load())])), Expr(value=Call(func=Attribute(value=Name(id='records', ctx=Load()), attr='append', ctx=Load()), args=[Dict(keys=[Constant(value='csv_row_index'), Constant(value='reviewer'), Constant(value='reviewee'), Constant(value='criterion'), Constant(value='raw_score'), Constant(value='max_score'), Constant(value='comment')], values=[Name(id='csv_row_index', ctx=Load()), Name(id='reviewer', ctx=Load()), Name(id='reviewee', ctx=Load()), Name(id='criterion', ctx=Load()), Name(id='score', ctx=Load()), Name(id='scale', ctx=Load()), Name(id='comment', ctx=Load())])]))]), If(test=UnaryOp(op=Not(), operand=Name(id='records', ctx=Load())), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='CSV contained no usable scored rows.')]))]), Expr(value=Call(func=Name(id='log_event', ctx=Load()), args=[Constant(value='tool_parse_csv')], keywords=[keyword(arg='roster', value=Call(func=Name(id='len', ctx=Load()), args=[Name(id='roster', ctx=Load())])), keyword(arg='rows', value=Call(func=Name(id='len', ctx=Load()), args=[Name(id='records', ctx=Load())])), keyword(arg='skipped', value=Call(func=Name(id='len', ctx=Load()), args=[Name(id='skipped', ctx=Load())]))])), Return(value=Dict(keys=[Constant(value='status'), Constant(value='roster'), Constant(value='records'), Constant(value='alias_map'), Constant(value='skipped_rows'), Constant(value='rubric_title')], values=[Constant(value='ok'), Name(id='roster', ctx=Load()), Name(id='records', ctx=Load()), Name(id='alias_map', ctx=Load()), Name(id='skipped', ctx=Load()), BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='rules', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='rubric_title')]), Constant(value='Uploaded rubric')])]))], handlers=[ExceptHandler(type=Name(id='Exception', ctx=Load()), name='exc', body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), JoinedStr(values=[Constant(value='CSV parsing failed: '), FormattedValue(value=Name(id='exc', ctx=Load()), conversion=-1)])]))])])], returns=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()))])"
+      },
+      "response": "{\"roster\": [\"Clementine Gleeson-Cook\", \"Nico Napoli\", \"Ren\\u00e9e Wong\", \"Timothy He\"], \"skipped\": [\"Row 49\", \"Row 50\"]}"
+    },
+    {
+      "node": "calculate",
+      "payload": {
+        "status": "ok",
+        "correlation_id": "ea2605b3-1797-4042-a0f5-59dafd895c44",
+        "rubric_title": "Uploaded rubric screenshot",
+        "students": [
+          {
+            "student_name": "Clementine Gleeson-Cook",
+            "criteria": [
+              {
+                "criterion": "Collaboration",
+                "percentage": 86.7,
+                "source_row_ids": [
+                  2,
+                  19,
+                  42
+                ]
+              },
+              {
+                "criterion": "Communication",
+                "percentage": 90.0,
+                "source_row_ids": [
+                  15,
+                  46
+                ]
+              },
+              {
+                "criterion": "Data Wrangling",
+                "percentage": 100.0,
+                "source_row_ids": [
+                  1
+                ]
+              },
+              {
+                "criterion": "Reproducibility",
+                "percentage": 86.7,
+                "source_row_ids": [
+                  12,
+                  33,
+                  53
+                ]
+              },
+              {
+                "criterion": "Technical Implementation",
+                "percentage": 80.0,
+                "source_row_ids": [
+                  11,
+                  34
+                ]
+              }
+            ],
+            "contribution_percentage": 21.1,
+            "overall_percentage": 88.7,
+            "audit": "Mapped peer-review scores for Clementine Gleeson-Cook onto the rubric, then converted each score into a percentage. Contribution share is 21.1% of the team.",
+            "actions_mentioned": 11
+          },
+          {
+            "student_name": "Nico Napoli",
+            "criteria": [
+              {
+                "criterion": "Collaboration",
+                "percentage": 80.0,
+                "source_row_ids": [
+                  7,
+                  38,
+                  52,
+                  58
+                ]
+              },
+              {
+                "criterion": "Communication",
+                "percentage": 66.7,
+                "source_row_ids": [
+                  27,
+                  29,
+                  56
+                ]
+              },
+              {
+                "criterion": "Data Wrangling",
+                "percentage": 70.0,
+                "source_row_ids": [
+                  16,
+                  44
+                ]
+              },
+              {
+                "criterion": "Reproducibility",
+                "percentage": 80.0,
+                "source_row_ids": [
+                  4,
+                  35
+                ]
+              },
+              {
+                "criterion": "Technical Implementation",
+                "percentage": 80.0,
+                "source_row_ids": [
+                  3,
+                  20
+                ]
+              }
+            ],
+            "contribution_percentage": 21.5,
+            "overall_percentage": 75.3,
+            "audit": "Mapped peer-review scores for Nico Napoli onto the rubric, then converted each score into a percentage. Contribution share is 21.5% of the team.",
+            "actions_mentioned": 13
+          },
+          {
+            "student_name": "Ren\u00e9e Wong",
+            "criteria": [
+              {
+                "criterion": "Collaboration",
+                "percentage": 73.3,
+                "source_row_ids": [
+                  17,
+                  22,
+                  24
+                ]
+              },
+              {
+                "criterion": "Communication",
+                "percentage": 80.0,
+                "source_row_ids": [
+                  8,
+                  13,
+                  37,
+                  39
+                ]
+              },
+              {
+                "criterion": "Data Wrangling",
+                "percentage": 80.0,
+                "source_row_ids": [
+                  21,
+                  26,
+                  41
+                ]
+              },
+              {
+                "criterion": "Reproducibility",
+                "percentage": 76.0,
+                "source_row_ids": [
+                  23,
+                  28,
+                  40,
+                  51,
+                  57
+                ]
+              },
+              {
+                "criterion": "Technical Implementation",
+                "percentage": 76.0,
+                "source_row_ids": [
+                  25,
+                  31,
+                  43,
+                  48,
+                  54
+                ]
+              }
+            ],
+            "contribution_percentage": 33.8,
+            "overall_percentage": 77.1,
+            "audit": "Mapped peer-review scores for Ren\u00e9e Wong onto the rubric, then converted each score into a percentage. Contribution share is 33.8% of the team.",
+            "actions_mentioned": 20
+          },
+          {
+            "student_name": "Timothy He",
+            "criteria": [
+              {
+                "criterion": "Collaboration",
+                "percentage": 85.0,
+                "source_row_ids": [
+                  10,
+                  30,
+                  45,
+                  47
+                ]
+              },
+              {
+                "criterion": "Communication",
+                "percentage": 80.0,
+                "source_row_ids": [
+                  6,
+                  18
+                ]
+              },
+              {
+                "criterion": "Data Wrangling",
+                "percentage": 90.0,
+                "source_row_ids": [
+                  9,
+                  32
+                ]
+              },
+              {
+                "criterion": "Reproducibility",
+                "percentage": 80.0,
+                "source_row_ids": [
+                  14,
+                  55,
+                  59
+                ]
+              },
+              {
+                "criterion": "Technical Implementation",
+                "percentage": 80.0,
+                "source_row_ids": [
+                  5,
+                  36
+                ]
+              }
+            ],
+            "contribution_percentage": 23.7,
+            "overall_percentage": 83.0,
+            "audit": "Mapped peer-review scores for Timothy He onto the rubric, then converted each score into a percentage. Contribution share is 23.7% of the team.",
+            "actions_mentioned": 13
+          }
+        ],
+        "lineage": {
+          "Clementine Gleeson-Cook::Collaboration": [
+            2,
+            19,
+            42
+          ],
+          "Clementine Gleeson-Cook::Communication": [
+            15,
+            46
+          ],
+          "Clementine Gleeson-Cook::Data Wrangling": [
+            1
+          ],
+          "Clementine Gleeson-Cook::Reproducibility": [
+            12,
+            33,
+            53
+          ],
+          "Clementine Gleeson-Cook::Technical Implementation": [
+            11,
+            34
+          ],
+          "Nico Napoli::Collaboration": [
+            7,
+            38,
+            52,
+            58
+          ],
+          "Nico Napoli::Communication": [
+            27,
+            29,
+            56
+          ],
+          "Nico Napoli::Data Wrangling": [
+            16,
+            44
+          ],
+          "Nico Napoli::Reproducibility": [
+            4,
+            35
+          ],
+          "Nico Napoli::Technical Implementation": [
+            3,
+            20
+          ],
+          "Ren\u00e9e Wong::Collaboration": [
+            17,
+            22,
+            24
+          ],
+          "Ren\u00e9e Wong::Communication": [
+            8,
+            13,
+            37,
+            39
+          ],
+          "Ren\u00e9e Wong::Data Wrangling": [
+            21,
+            26,
+            41
+          ],
+          "Ren\u00e9e Wong::Reproducibility": [
+            23,
+            28,
+            40,
+            51,
+            57
+          ],
+          "Ren\u00e9e Wong::Technical Implementation": [
+            25,
+            31,
+            43,
+            48,
+            54
+          ],
+          "Timothy He::Collaboration": [
+            10,
+            30,
+            45,
+            47
+          ],
+          "Timothy He::Communication": [
+            6,
+            18
+          ],
+          "Timothy He::Data Wrangling": [
+            9,
+            32
+          ],
+          "Timothy He::Reproducibility": [
+            14,
+            55,
+            59
+          ],
+          "Timothy He::Technical Implementation": [
+            5,
+            36
+          ]
+        }
+      },
+      "ast": {
+        "node_type": "Module",
+        "dump": "Module(body=[FunctionDef(name='calculate_normalized_percentages', args=arguments(args=[arg(arg='parsed', annotation=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load())), arg(arg='correlation_id', annotation=Name(id='str', ctx=Load())), arg(arg='extracted_rules', annotation=BinOp(left=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()), op=BitOr(), right=Constant(value=None)))], defaults=[Constant(value=None)]), body=[Expr(value=Constant(value='Deterministic percentage math. Never returns raw tallies.')), Try(body=[If(test=Compare(left=Call(func=Attribute(value=Name(id='parsed', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='status')]), ops=[Eq()], comparators=[Constant(value='error')]), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='parsed', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='reason')]), Constant(value='unreadable_data')]), Call(func=Attribute(value=Name(id='parsed', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='message')])]))]), Assign(targets=[Name(id='records', ctx=Store())], value=BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='parsed', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='records')]), List(ctx=Load())])), Assign(targets=[Name(id='roster', ctx=Store())], value=Call(func=Name(id='list', ctx=Load()), args=[BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='parsed', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='roster')]), List(ctx=Load())])])), If(test=BoolOp(op=Or(), values=[UnaryOp(op=Not(), operand=Name(id='records', ctx=Load())), UnaryOp(op=Not(), operand=Name(id='roster', ctx=Load()))]), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='No roster or actions to calculate.')]))]), Assign(targets=[Name(id='df', ctx=Store())], value=Call(func=Attribute(value=Name(id='pd', ctx=Load()), attr='DataFrame', ctx=Load()), args=[Name(id='records', ctx=Load())])), Assign(targets=[Name(id='required', ctx=Store())], value=Set(elts=[Constant(value='csv_row_index'), Constant(value='reviewee'), Constant(value='criterion'), Constant(value='raw_score'), Constant(value='max_score')])), If(test=BinOp(left=Name(id='required', ctx=Load()), op=Sub(), right=Call(func=Name(id='set', ctx=Load()), args=[Attribute(value=Name(id='df', ctx=Load()), attr='columns', ctx=Load())])), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='Parsed actions are missing required fields.')]))]), Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='csv_row_index'), ctx=Store())], value=Call(func=Attribute(value=Name(id='pd', ctx=Load()), attr='to_numeric', ctx=Load()), args=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='csv_row_index'), ctx=Load())], keywords=[keyword(arg='errors', value=Constant(value='coerce'))])), Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='raw_score'), ctx=Store())], value=Call(func=Attribute(value=Name(id='pd', ctx=Load()), attr='to_numeric', ctx=Load()), args=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='raw_score'), ctx=Load())], keywords=[keyword(arg='errors', value=Constant(value='coerce'))])), Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='max_score'), ctx=Store())], value=Call(func=Attribute(value=Name(id='pd', ctx=Load()), attr='to_numeric', ctx=Load()), args=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='max_score'), ctx=Load())], keywords=[keyword(arg='errors', value=Constant(value='coerce'))])), Assign(targets=[Name(id='df', ctx=Store())], value=Call(func=Attribute(value=Name(id='df', ctx=Load()), attr='dropna', ctx=Load()), keywords=[keyword(arg='subset', value=List(elts=[Constant(value='csv_row_index'), Constant(value='raw_score'), Constant(value='max_score')], ctx=Load()))])), If(test=Attribute(value=Name(id='df', ctx=Load()), attr='empty', ctx=Load()), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='All numeric fields were corrupted.')]))]), Assign(targets=[Name(id='weights', ctx=Store())], value=DictComp(key=Call(func=Name(id='str', ctx=Load()), args=[Call(func=Attribute(value=Name(id='item', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='name')])]), value=Call(func=Name(id='float', ctx=Load()), args=[BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='item', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='weight')]), Constant(value=1.0)])]), generators=[comprehension(target=Name(id='item', ctx=Store()), iter=BoolOp(op=Or(), values=[Call(func=Attribute(value=BoolOp(op=Or(), values=[Name(id='extracted_rules', ctx=Load()), Dict()]), attr='get', ctx=Load()), args=[Constant(value='criteria')]), List(ctx=Load())]), ifs=[Call(func=Attribute(value=Name(id='item', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='name')])], is_async=0)])), Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='weight'), ctx=Store())], value=Call(func=Attribute(value=Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='criterion'), ctx=Load()), attr='map', ctx=Load()), args=[Lambda(args=arguments(args=[arg(arg='name')]), body=Call(func=Attribute(value=Name(id='weights', ctx=Load()), attr='get', ctx=Load()), args=[Call(func=Name(id='str', ctx=Load()), args=[Name(id='name', ctx=Load())]), Constant(value=1.0)]))])), Assign(targets=[Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='row_percentage'), ctx=Store())], value=BinOp(left=BinOp(left=BinOp(left=Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='raw_score'), ctx=Load()), op=Div(), right=Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='max_score'), ctx=Load())), op=Mult(), right=Constant(value=100.0)), op=Mult(), right=Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='weight'), ctx=Load()))), Assign(targets=[Name(id='grouped', ctx=Store())], value=Call(func=Attribute(value=Call(func=Attribute(value=Name(id='df', ctx=Load()), attr='groupby', ctx=Load()), args=[List(elts=[Constant(value='reviewee'), Constant(value='criterion')], ctx=Load())], keywords=[keyword(arg='as_index', value=Constant(value=False))]), attr='agg', ctx=Load()), keywords=[keyword(arg='percentage', value=Tuple(elts=[Constant(value='row_percentage'), Constant(value='mean')], ctx=Load())), keyword(arg='source_row_ids', value=Tuple(elts=[Constant(value='csv_row_index'), Lambda(args=arguments(args=[arg(arg='s')]), body=Call(func=Name(id='sorted', ctx=Load()), args=[SetComp(elt=Call(func=Name(id='int', ctx=Load()), args=[Name(id='v', ctx=Load())]), generators=[comprehension(target=Name(id='v', ctx=Store()), iter=Name(id='s', ctx=Load()), is_async=0)])]))], ctx=Load()))])), Assign(targets=[Name(id='student_mass', ctx=Store())], value=Call(func=Attribute(value=Subscript(value=Call(func=Attribute(value=Name(id='df', ctx=Load()), attr='groupby', ctx=Load()), args=[Constant(value='reviewee')]), slice=Constant(value='row_percentage'), ctx=Load()), attr='sum', ctx=Load()))), Assign(targets=[Name(id='team_mass', ctx=Store())], value=Call(func=Name(id='float', ctx=Load()), args=[Call(func=Attribute(value=Name(id='student_mass', ctx=Load()), attr='sum', ctx=Load()))])), If(test=Compare(left=Name(id='team_mass', ctx=Load()), ops=[LtE()], comparators=[Constant(value=0)]), body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), Constant(value='Cannot normalize a zero team mass.')]))]), AnnAssign(target=Name(id='students', ctx=Store()), annotation=Subscript(value=Name(id='list', ctx=Load()), slice=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()), ctx=Load()), value=List(ctx=Load()), simple=1), AnnAssign(target=Name(id='lineage', ctx=Store()), annotation=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Subscript(value=Name(id='list', ctx=Load()), slice=Name(id='int', ctx=Load()), ctx=Load())], ctx=Load()), ctx=Load()), value=Dict(), simple=1), For(target=Name(id='name', ctx=Store()), iter=Name(id='roster', ctx=Load()), body=[Assign(targets=[Name(id='subset', ctx=Store())], value=Subscript(value=Name(id='grouped', ctx=Load()), slice=Compare(left=Subscript(value=Name(id='grouped', ctx=Load()), slice=Constant(value='reviewee'), ctx=Load()), ops=[Eq()], comparators=[Name(id='name', ctx=Load())]), ctx=Load())), Assign(targets=[Name(id='criteria', ctx=Store())], value=ListComp(elt=Dict(keys=[Constant(value='criterion'), Constant(value='percentage'), Constant(value='source_row_ids')], values=[Attribute(value=Name(id='row', ctx=Load()), attr='criterion', ctx=Load()), Call(func=Name(id='_round_pct', ctx=Load()), args=[Call(func=Name(id='min', ctx=Load()), args=[Attribute(value=Name(id='row', ctx=Load()), attr='percentage', ctx=Load()), Constant(value=100)])]), Attribute(value=Name(id='row', ctx=Load()), attr='source_row_ids', ctx=Load())]), generators=[comprehension(target=Name(id='row', ctx=Store()), iter=Call(func=Attribute(value=Name(id='subset', ctx=Load()), attr='itertuples', ctx=Load()), keywords=[keyword(arg='index', value=Constant(value=False))]), is_async=0)])), Assign(targets=[Name(id='overall', ctx=Store())], value=IfExp(test=UnaryOp(op=Not(), operand=Attribute(value=Name(id='subset', ctx=Load()), attr='empty', ctx=Load())), body=Call(func=Name(id='_round_pct', ctx=Load()), args=[Call(func=Name(id='float', ctx=Load()), args=[Call(func=Attribute(value=Subscript(value=Name(id='subset', ctx=Load()), slice=Constant(value='percentage'), ctx=Load()), attr='mean', ctx=Load()))])]), orelse=Constant(value=0.0))), Assign(targets=[Name(id='contribution', ctx=Store())], value=Call(func=Name(id='_round_pct', ctx=Load()), args=[BinOp(left=BinOp(left=Call(func=Name(id='float', ctx=Load()), args=[Call(func=Attribute(value=Name(id='student_mass', ctx=Load()), attr='get', ctx=Load()), args=[Name(id='name', ctx=Load()), Constant(value=0.0)])]), op=Div(), right=Name(id='team_mass', ctx=Load())), op=Mult(), right=Constant(value=100.0))])), Assign(targets=[Name(id='action_rows', ctx=Store())], value=Call(func=Name(id='int', ctx=Load()), args=[Subscript(value=Attribute(value=Subscript(value=Name(id='df', ctx=Load()), slice=Compare(left=Subscript(value=Name(id='df', ctx=Load()), slice=Constant(value='reviewee'), ctx=Load()), ops=[Eq()], comparators=[Name(id='name', ctx=Load())]), ctx=Load()), attr='shape', ctx=Load()), slice=Constant(value=0), ctx=Load())])), Assign(targets=[Name(id='audit', ctx=Store())], value=JoinedStr(values=[Constant(value='Mapped peer-review scores for '), FormattedValue(value=Name(id='name', ctx=Load()), conversion=-1), Constant(value=' onto the rubric, then converted each score into a percentage. Contribution share is '), FormattedValue(value=Name(id='contribution', ctx=Load()), conversion=-1), Constant(value='% of the team.')])), For(target=Name(id='item', ctx=Store()), iter=Name(id='criteria', ctx=Load()), body=[Assign(targets=[Subscript(value=Name(id='lineage', ctx=Load()), slice=JoinedStr(values=[FormattedValue(value=Name(id='name', ctx=Load()), conversion=-1), Constant(value='::'), FormattedValue(value=Subscript(value=Name(id='item', ctx=Load()), slice=Constant(value='criterion'), ctx=Load()), conversion=-1)]), ctx=Store())], value=Subscript(value=Name(id='item', ctx=Load()), slice=Constant(value='source_row_ids'), ctx=Load()))]), Expr(value=Call(func=Attribute(value=Name(id='students', ctx=Load()), attr='append', ctx=Load()), args=[Dict(keys=[Constant(value='student_name'), Constant(value='criteria'), Constant(value='contribution_percentage'), Constant(value='overall_percentage'), Constant(value='audit'), Constant(value='actions_mentioned')], values=[Name(id='name', ctx=Load()), Name(id='criteria', ctx=Load()), Name(id='contribution', ctx=Load()), Name(id='overall', ctx=Load()), Name(id='audit', ctx=Load()), Name(id='action_rows', ctx=Load())])]))]), Expr(value=Call(func=Name(id='log_event', ctx=Load()), args=[Constant(value='tool_calculate_percentages')], keywords=[keyword(arg='students', value=Call(func=Name(id='len', ctx=Load()), args=[Name(id='students', ctx=Load())])), keyword(arg='correlation_id', value=Name(id='correlation_id', ctx=Load()))])), Return(value=Dict(keys=[Constant(value='status'), Constant(value='correlation_id'), Constant(value='rubric_title'), Constant(value='students'), Constant(value='lineage')], values=[Constant(value='ok'), Name(id='correlation_id', ctx=Load()), BoolOp(op=Or(), values=[Call(func=Attribute(value=Name(id='parsed', ctx=Load()), attr='get', ctx=Load()), args=[Constant(value='rubric_title')]), Call(func=Attribute(value=BoolOp(op=Or(), values=[Name(id='extracted_rules', ctx=Load()), Dict()]), attr='get', ctx=Load()), args=[Constant(value='rubric_title')]), Constant(value='Uploaded rubric')]), Name(id='students', ctx=Load()), Name(id='lineage', ctx=Load())]))], handlers=[ExceptHandler(type=Name(id='Exception', ctx=Load()), name='exc', body=[Return(value=Dict(keys=[Constant(value='status'), Constant(value='reason'), Constant(value='message')], values=[Constant(value='error'), Constant(value='unreadable_data'), JoinedStr(values=[Constant(value='Percentage calculation failed: '), FormattedValue(value=Name(id='exc', ctx=Load()), conversion=-1)])]))])])], returns=Subscript(value=Name(id='dict', ctx=Load()), slice=Tuple(elts=[Name(id='str', ctx=Load()), Name(id='Any', ctx=Load())], ctx=Load()), ctx=Load()))])"
+      },
+      "response": "{\"status\": \"ok\", \"correlation_id\": \"ea2605b3-1797-4042-a0f5-59dafd895c44\", \"rubric_title\": \"Uploaded rubric screenshot\", \"students\": [{\"student_name\": \"Clementine Gleeson-Cook\", \"criteria\": [{\"criterion\": \"Collaboration\", \"percentage\": 86.7, \"source_row_ids\": [2, 19, 42]}, {\"criterion\": \"Communication\", \"percentage\": 90.0, \"source_row_ids\": [15, 46]}, {\"criterion\": \"Data Wrangling\", \"percentage\": 100.0, \"source_row_ids\": [1]}, {\"criterion\": \"Reproducibility\", \"percentage\": 86.7, \"source_row_ids\": [12, 33, 53]}, {\"criterion\": \"Technical Implementation\", \"percentage\": 80.0, \"source_row_ids\": [11, 34]}], \"contribution_percentage\": 21.1, \"overall_percentage\": 88.7, \"audit\": \"Mapped peer-review scores for Clementine Gleeson-Cook onto the rubric, then converted each score into a percentage. Contribution share is 21.1% of the team.\", \"actions_mentioned\": 11}, {\"student_name\": \"Nico Napoli\", \"criteria\": [{\"criterion\": \"Collaboration\", \"percentage\": 80.0, \"source_row_ids\": [7, 38, 52, 58]}, {\"criterion\": \"Communication\", \"percentage\": 66.7, \"source_row_ids\": [27, 29, 56]}, {\"criterion\": \"Data Wrangling\", \"percentage\": 70.0, \"source_row_ids\": [16, 44]}, {\"criterion\": \"Reproducibility\", \"percentage\": 80.0, \"source_row_ids\": [4, 35]}, {\"criterion\": \"Technical Implementation\", \"percentage\": 80.0, \"source_row_ids\": [3, 20]}], \"contribution_percentage\": 21.5, \"overall_percentage\": 75.3, \"audit\": \"Mapped peer-review scores for Nico Napoli onto the rubric, then converted each score into a percentage. Contribution share is 21.5% of the team.\", \"actions_mentioned\": 13}, {\"student_name\": \"Ren\\u00e9e Wong\", \"criteria\": [{\"criterion\": \"Collaboration\", \"percentage\": 73.3, \"source_row_ids\": [17, 22, 24]}, {\"criterion\": \"Communication\", \"percentage\": 80.0, \"source_row_ids\": [8, 13, 37, 39]}, {\"criterion\": \"Data Wrangling\", \"percentage\": 80.0, \"source_row_ids\": [21, 26, 41]}, {\"criterion\": \"Reproducibility\", \"percentage\": 76.0, \"source_row_ids\": [23, 28, 40, 51, 57]}, {\"criterion\": \"Technical Implementation\", \"percentage\": 76.0, \"source_row_ids\": [25, 31, 43, 48, 54]}], \"contribution_percentage\": 33.8, \"overall_percentage\": 77.1, \"audit\": \"Mapped peer-review scores for Ren\\u00e9e Wong onto the rubric, then converted each score into a percentage. Contribution share is 33.8% of the team.\", \"actions_mentioned\": 20}, {\"student_name\": \"Timothy He\", \"criteria\": [{\"criterion\": \"Collaboration\", \"percentage\": 85.0, \"source_row_ids\": [10, 30, 45, 47]}, {\"criterion\": \"Communication\", \"percentage\": 80.0, \"source_row_ids\": [6, 18]}, {\"criterion\": \"Data Wrangling\", \"percentage\": 90.0, \"source_row_ids\": [9, 32]}, {\"criterion\": \"Reproducibility\", \"percentage\": 80.0, \"source_row_ids\": [14, 55, 59]}, {\"criterion\": \"Technical Implementation\", \"percentage\": 80.0, \"source_row_ids\": [5, 36]}], \"contribution_percentage\": 23.7, \"overall_percentage\": 83.0, \"audit\": \"Mapped peer-review scores for Timothy He onto the rubric, then converted each score into a percentage. Contribution share is 23.7% of the team.\", \"actions_mentioned\": 13}], \"lineage\": {\"Clementine Gleeson-Cook::Collaboration\": [2, 19, 42], \"Clementine Gleeson-Cook::Communication\": [15, 46], \"Clementine Gleeson-Cook::Data Wrangling\": [1], \"Clementine Gleeson-Cook::Reproducibility\": [12, 33, 53], \"Clementine Gleeson-Cook::Technical Implementation\": [11, 34], \"Nico Napoli::Collaboration\": [7, 38, 52, 58], \"Nico Napoli::Communication\": [27, 29, 56], \"Nico Napoli::Data Wrangling\": [16, 44], \"Nico Napoli::Reproducibility\": [4, 35], \"Nico Napoli::Technical Implementation\": [3, 20], \"Ren\\u00e9e Wong::Collaboration\": [17, 22, 24], \"Ren\\u00e9e Wong::Communication\": [8, 13, 37, 39], \"Ren\\u00e9e Wong::Data Wrangling\": [21, 26, 41], \"Ren\\u00e9e Wong::Reproducibility\": [23, 28, 40, 51, 57], \"Ren\\u00e9e Wong::Technical Implementation\": [25, 31, 43, 48, 54], \"Timothy He::Collaboration\": [10, 30, 45, 47], \"Timothy He::Communication\": [6, 18], \"Timothy He::Data Wrangling\": [9, 32], \"Timothy He::Reproducibility\": [14, 55, 59], \"Timot"
+    },
+    {
+      "node": "save_to_database",
+      "payload": {
+        "students": 4,
+        "approver": "admin@local"
+      },
+      "ast": {
+        "node_type": "Save",
+        "dump": "interrupt_before=['save_to_database']"
+      }
+    }
+  ],
+  "status": "published"
+}
