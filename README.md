@@ -1,15 +1,72 @@
-# Autonomous Group Assignment & Capability Tracking
+# Autonomous Grading Engine: Enterprise Agentic Control Plane
 
-Drop a peer-review CSV and a rubric screenshot. A three-brain LangGraph pipeline reads the image, extracts the team from the CSV, and converts every score into a **percentage**. Nothing is saved until you approve.
+**An open source multimodal AI orchestration engine designed to evaluate complex, asynchronous team contributions without mathematical hallucinations.**
 
-The UI starts empty. There is no preloaded roster.
+Most LLM wrappers naively attempt to calculate metrics in a single probabilistic prompt, leading to hallucinations and failed audits. This repository implements a strict "Three Brain" architecture, utilizing Large Language Models purely as semantic parsers while offloading all numerical normalization to a deterministic Python and Pandas pipeline.
+
+The result is a fully auditable, Human in the Loop (HITL) workflow that converts chaotic peer feedback into legally defensible, normalized percentage metrics.
+
+***
+
+## System Architecture: Deterministic Handoff
+
+This system runs on a stateful LangGraph orchestration pipeline, executing three distinct nodes:
+
+*   **Vision Extractor Node (Multimodal LLM):** Reads a rubric screenshot only when it shows real grading criteria and a scoring scale. A missing API key, a failed vision request, or an unrelated image stops the pipeline. The model does not invent criteria.
+*   **Semantic Parser Node (Dynamic Entity Resolution):** Reads an unstructured peer-review CSV. The file must identify a student and contain task or feedback text. Inventory, weather, and employee tables are rejected. Accepted column names can vary, including `Student`, `Reviewee`, `Team Member`, `Tasks Completed`, and `Peer Feedback`.
+*   **Deterministic Calculator Node (Pandas Data Engine):** The AI performs absolutely zero math. This isolated Python tool ingests the structured JSON, groups data by extracted entity, and calculates exact percentage normalizations.
+
+***
+
+## Semantic input validation
+
+A readable file is not treated as a valid upload. Before calculation, the pipeline checks three things:
+
+*   The screenshot is a grading rubric, with at least one meaningful criterion and a scale from 1 to 100.
+*   The CSV is peer-assessment data, not just a spreadsheet that happens to contain names or comments.
+*   Each scoring action uses 0, 5, or 10, names a student from the CSV, uses a criterion from the extracted rubric, and is supported by that review.
+
+If a score names the reviewer, or points at another student's row, it is moved to the review the text actually came from. Actions that still cannot be grounded are dropped. If nothing valid remains, the run stops and nothing is published. Percentages are saved only after you approve them.
+
+***
+
+## Enterprise Grade Guardrails
+
+Designed for production resilience and strict data observability:
+
+*   **Traceable Execution:** Every score variation maps directly via correlation IDs back to the specific row in the raw CSV. The UI provides a step by step "Audit Trail" exposing the agent's reasoning.
+*   **Human in the Loop Interrupts:** Utilizes LangGraph's interruption methodology. The pipeline pauses execution prior to database commits, requiring explicit admin authorization to finalize metrics.
+*   **State Checkpointing:** Graph state is persisted via Redis and MemorySaver. If a runtime timeout occurs, the system resumes processing from the exact interrupted node.
+*   **Risk Protection:** Implements input sanitization to strip prompt injection attempts from raw CSV uploads prior to LLM evaluation.
+*   **Fail closed:** Invalid rubric images, unrelated CSVs, and ungrounded scores halt the graph before the calculator and the database.
+
+***
+
+## Strict Data Visualization Constraints
+
+*   **No Raw Tallies:** The data pipeline is strictly prohibited from exposing raw counts. All evaluation metrics are mathematically normalized into percentages to ensure scale agnostic fairness.
+*   **Explicit Labeling:** The Next.js dashboard utilizes Recharts to render metrics, with exact percentages explicitly labeled directly on the UI components for absolute transparency.
+
+***
+
+## Tech Stack
+
+*   **AI Orchestration:** LangGraph, LangChain, Pydantic
+*   **Core Logic:** Python, FastAPI, Pandas
+*   **Frontend UI:** Next.js (TypeScript), Tailwind CSS, Framer Motion, Recharts
+*   **State Persistence:** SQLite (Dev), Redis (State Checkpointing)
+*   **Models:** OpenAI GPT-4o for rubric vision, GPT-4o-mini for semantic parsing
+
+***
 
 ## Run
+
+Set `OPENAI_API_KEY` in `backend/.env` before uploading. Restart the backend after changing it. Without that key, rubric verification stops and does not guess the criteria.
 
 Backend:
 
 ```powershell
-cd "C:\Users\Timothy\Desktop\Adv AI Project\backend"
+cd backend
 python -m venv .venv
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
@@ -21,31 +78,15 @@ uvicorn app.main:app --reload --port 8000
 Frontend:
 
 ```powershell
-cd "C:\Users\Timothy\Desktop\Adv AI Project\frontend"
+cd frontend
 npm install
 npm run dev
 ```
 
 Open http://localhost:3000
 
-Set `OPENAI_API_KEY` in `backend/.env` before uploading. Rubric verification calls the vision model and will not invent criteria when the key is missing or the request fails. Restart the backend after changing the key.
+Sample peer reviews: `backend/data/sample_peer_reviews.csv`
 
-The pipeline checks meaning, not only the file type:
-
-- The screenshot must be a readable grading rubric with real criteria and a scoring scale. Photos, receipts, and unrelated screenshots are rejected.
-- The CSV must identify a student and contain task or peer-feedback text. Inventory, weather, and employee tables are rejected. Column names can vary (`Student`, `Reviewee`, `Team Member`, `Tasks Completed`, `Peer Feedback`).
-- Each score must use 0, 5, or 10, name a student from the CSV, use a criterion from the rubric, and be supported by that review. Invalid results stop before calculation and are not published.
-
-Nothing is saved until you approve the percentages.
-
-## Sample files
-
-- `backend/data/sample_peer_reviews.csv`
-- Generate a rubric PNG (run from `backend` with the venv active):
-
-```powershell
-.\.venv\Scripts\python.exe -c "from PIL import Image, ImageDraw; im=Image.new('RGB',(900,640),'white'); d=ImageDraw.Draw(im); y=40
-for t in ['Group Project Rubric','Scale 1-5','Collaboration','Communication','Technical Implementation','Data Wrangling','Reproducibility']:
- d.text((40,y),t,fill='black'); y+=48
-im.save('data/sample_rubric.png')"
+```bash
+git clone https://github.com/timothyheeeee/Autonomous-Grading-Engine.git
 ```
