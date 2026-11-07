@@ -14,7 +14,7 @@ This system runs on a stateful LangGraph orchestration pipeline, executing three
 
 *   **Vision Extractor Node (Multimodal LLM):** Reads a rubric screenshot only when it shows real grading criteria and a scoring scale. A missing API key, a failed vision request, or an unrelated image stops the pipeline. The model does not invent criteria.
 *   **Semantic Parser Node (Dynamic Entity Resolution):** Reads an unstructured peer-review CSV. The file must identify a student and contain task or feedback text. Inventory, weather, and employee tables are rejected. Accepted column names can vary, including `Student`, `Reviewee`, `Team Member`, `Tasks Completed`, and `Peer Feedback`.
-*   **Deterministic Calculator Node (Pandas Data Engine):** The AI performs absolutely zero math. This isolated Python tool ingests the structured JSON, groups data by extracted entity, and calculates exact percentage normalizations.
+*   **Deterministic Calculator Node (Pandas Data Engine):** The AI performs absolutely zero math. This isolated Python tool ingests the structured JSON and converts internal scores with a fixed maximum of 10: `percentage = (score / 10) * 100`. The uploaded rubric's original `scale_max` is kept as metadata and is never the denominator.
 
 ***
 
@@ -27,6 +27,8 @@ A readable file is not treated as a valid upload. Before calculation, the pipeli
 *   Each scoring action uses 0, 5, or 10, names a student from the CSV, uses a criterion from the extracted rubric, and is supported by that review.
 
 If a score names the reviewer, or points at another student's row, it is moved to the review the text actually came from. Actions that still cannot be grounded are dropped. If nothing valid remains, the run stops and nothing is published. Percentages are saved only after you approve them.
+
+The current prototype uses a simplified internal scoring system of 0, 5 and 10, converted to 0%, 50% and 100%. It does not reproduce every uploaded rubric's original numerical scoring bands. A rubric marked out of 100 and an internal score of 10 still produce 100%, not 10%. A rubric marked out of 5 and an internal score of 5 produce 50%, not 100%.
 
 ***
 

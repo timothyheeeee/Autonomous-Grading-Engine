@@ -48,7 +48,10 @@ def calculate_node(state: AgentState) -> dict[str, Any]:
             {
                 "step": 4,
                 "title": "Calculate percentages",
-                "detail": "Converted every raw score into a normalized percentage. Contribution shares: " + summary + ".",
+                "detail": (
+                    "Converted internal scores of 0, 5, and 10 into 0%, 50%, and 100% using a fixed maximum of 10. "
+                    "These are not the uploaded rubric's original marks. Contribution shares: " + summary + "."
+                ),
                 "ok": True,
             }
         ],

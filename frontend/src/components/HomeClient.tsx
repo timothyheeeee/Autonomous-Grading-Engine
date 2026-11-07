@@ -126,6 +126,7 @@ export default function HomeClient() {
         <h1 className="mt-2 text-3xl font-semibold tracking-tight">Group contribution, as percentages.</h1>
         <p className="mt-2 max-w-xl text-sm leading-6 text-neutral-500">
           Drop a peer-review CSV and a rubric screenshot. The model reads. Pandas calculates. Nothing is saved until you approve.
+          The current prototype uses a simplified internal scoring system of 0, 5 and 10, converted to 0%, 50% and 100%. It does not reproduce every uploaded rubric&apos;s original numerical scoring bands.
         </p>
       </main>
     );
@@ -139,6 +140,7 @@ export default function HomeClient() {
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">Group contribution, as percentages.</h1>
           <p className="mt-2 max-w-xl text-sm leading-6 text-neutral-500">
             Drop a peer-review CSV and a rubric screenshot. The model reads. Pandas calculates. Nothing is saved until you approve.
+            The current prototype uses a simplified internal scoring system of 0, 5 and 10, converted to 0%, 50% and 100%. It does not reproduce every uploaded rubric&apos;s original numerical scoring bands.
           </p>
         </div>
         {state ? (
