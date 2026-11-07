@@ -1,14 +1,39 @@
 from __future__ import annotations
 
+import re
 from io import StringIO
 from typing import Any
 
 import pandas as pd
 from pydantic import BaseModel, Field
 
-NAME_HINTS = ("student", "name", "member", "person", "reviewee", "reviewer", "peer", "author")
-TASK_HINTS = ("task", "completed", "work", "contribution", "action", "deliverable")
-NOTE_HINTS = ("feedback", "note", "comment", "remark", "observation")
+# Phrases are matched on word boundaries. "name" must not match "username".
+_STUDENT_PHRASES = (
+    "reviewed student",
+    "student name",
+    "team member",
+    "member name",
+    "reviewee",
+    "teammate",
+    "assessee",
+    "student",
+)
+_GENERIC_NAME_PHRASES = ("full name", "person", "name")
+_REVIEWER_PHRASES = ("peer reviewer", "reviewer", "assessor", "evaluator", "rater")
+_TASK_PHRASES = (
+    "tasks completed",
+    "task completed",
+    "work completed",
+    "contribution",
+    "deliverable",
+    "responsibilities",
+    "responsibility",
+    "completed",
+    "tasks",
+    "task",
+)
+_FEEDBACK_PHRASES = ("peer feedback", "feedback notes", "review notes", "feedback", "observation", "remark")
+_COMMENT_PHRASES = ("comments", "comment", "notes", "note")
 
 
 class LoadCsvInput(BaseModel):
@@ -38,19 +63,52 @@ def load_unstructured_csv(csv_text: str) -> dict[str, Any]:
         return {"status": "error", "reason": "unreadable_data", "message": f"CSV could not be read: {exc}"}
 
 
+def _column_key(column: str) -> str:
+    return re.sub(r"\s+", " ", column.casefold().replace("_", " ").replace("-", " ")).strip()
+
+
+def _has_phrase(column_key: str, phrase: str) -> bool:
+    padded = f" {column_key} "
+    return f" {phrase} " in padded or f" {phrase}s " in padded
+
+
+def _matches(column_key: str, phrases: tuple[str, ...]) -> bool:
+    return any(_has_phrase(column_key, phrase) for phrase in phrases)
+
+
 def classify_columns(columns: list[str]) -> dict[str, list[str]]:
-    names: list[str] = []
+    """Split columns by peer-review role. Never treat column position as meaning."""
+    student: list[str] = []
+    generic_name: list[str] = []
+    reviewer: list[str] = []
     tasks: list[str] = []
-    notes: list[str] = []
+    feedback: list[str] = []
+    comments: list[str] = []
     other: list[str] = []
     for col in columns:
-        key = col.casefold().replace("_", " ")
-        if any(hint in key for hint in NAME_HINTS):
-            names.append(col)
-        elif any(hint in key for hint in TASK_HINTS):
+        key = _column_key(col)
+        if _matches(key, _REVIEWER_PHRASES):
+            reviewer.append(col)
+        elif _matches(key, _STUDENT_PHRASES):
+            student.append(col)
+        elif _matches(key, _GENERIC_NAME_PHRASES):
+            generic_name.append(col)
+        elif _matches(key, _TASK_PHRASES):
             tasks.append(col)
-        elif any(hint in key for hint in NOTE_HINTS):
-            notes.append(col)
+        elif _matches(key, _FEEDBACK_PHRASES):
+            feedback.append(col)
+        elif _matches(key, _COMMENT_PHRASES):
+            comments.append(col)
         else:
             other.append(col)
-    return {"names": names, "tasks": tasks, "notes": notes, "other": other}
+    return {
+        "student": student,
+        "generic_name": generic_name,
+        "reviewer": reviewer,
+        "tasks": tasks,
+        "feedback": feedback,
+        "comments": comments,
+        "other": other,
+        "names": student or generic_name,
+        "notes": feedback + comments,
+    }

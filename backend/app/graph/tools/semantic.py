@@ -10,8 +10,13 @@ from pydantic import BaseModel, Field
 from app.config import get_settings
 from app.core.logging import log_event
 from app.graph.schemas import ScoredAction, SemanticExtraction
-from app.graph.tools.csv_parser import classify_columns, load_unstructured_csv
-from app.graph.tools.entities import cluster_names
+from app.graph.tools.csv_parser import load_unstructured_csv
+from app.graph.tools.validation import (
+    NO_GROUNDED_ACTIONS,
+    pipeline_error,
+    validate_peer_review_csv,
+    validate_scored_actions,
+)
 
 SEMANTIC_PROMPT = """You are the Semantic Parser for a university group-assessment pipeline.
 
@@ -21,12 +26,18 @@ You receive:
    Tasks_Completed, and Feedback_Notes. It does NOT contain criterion or score columns.
 
 Your job:
-- Dynamically extract unique student names from the CSV.
-- Read Tasks_Completed and Feedback_Notes (and any similar text).
-- Map each piece of evidence onto the matching rubric criterion.
-- Assign a base score of 10 (exceeds / strong), 5 (meets / mixed), or 0 (does not meet / missing)
-  using the rubric text. Do not use any other numbers.
+- The person being scored is the reviewee (Student, Reviewee, or Team Member), never the reviewer.
+  Use only student names that appear in that column. Do not invent people.
+- Read task, contribution, and feedback text.
+- Map each piece of evidence onto a rubric criterion name copied from the rules.
+  If a comment does not match a rubric criterion, skip it. Do not invent a criterion
+  and do not substitute a default criterion.
+- Assign a base score of exactly 10 (exceeds / strong), 5 (meets / mixed), or 0
+  (does not meet / missing). Do not use any other numbers.
+- Set csv_row_index to the data row, starting at 1. Do not count the header line.
+- Put supporting words from that same student's row in evidence.
 - Do NOT calculate percentages, averages, or contribution shares.
+- If the table is not a peer review, return an empty actions list.
 
 Return only the structured actions array.
 """
@@ -70,16 +81,7 @@ class SemanticInput(BaseModel):
 
 
 def _criteria(rules: dict[str, Any]) -> list[dict[str, Any]]:
-    items = list(rules.get("criteria") or [])
-    if items:
-        return items
-    return [
-        {"name": "Collaboration", "description": "Works reliably with peers"},
-        {"name": "Communication", "description": "Clear written and verbal updates"},
-        {"name": "Technical Implementation", "description": "Delivers working technical work"},
-        {"name": "Contribution", "description": "Completes assigned tasks"},
-        {"name": "Professionalism", "description": "Prepared, respectful, on time"},
-    ]
+    return [item for item in (rules.get("criteria") or []) if str(item.get("name") or "").strip()]
 
 
 def _score_from_text(text: str) -> float:
@@ -106,33 +108,54 @@ def _match_criteria(text: str, criteria: list[dict[str, Any]]) -> list[str]:
         key = name.casefold()
         hints = CRITERION_HINTS.get(key, ())
         desc = str(item.get("description") or "").casefold()
-        if key in lowered or any(hint in lowered for hint in hints) or (desc and desc[:18] in lowered):
+        if key in lowered or any(hint in lowered for hint in hints) or (desc and len(desc) >= 8 and desc[:18] in lowered):
             matched.append(name)
-    if not matched:
-        fallback = next((str(item.get("name")) for item in criteria if "contrib" in str(item.get("name")).casefold()), None)
-        matched = [fallback or str(criteria[0]["name"])]
     return list(dict.fromkeys(matched))
 
 
-def _heuristic_extract(loaded: dict[str, Any], rules: dict[str, Any]) -> dict[str, Any]:
-    columns = loaded.get("columns") or []
-    classified = classify_columns(columns)
-    name_cols = classified["names"] or columns[:1]
-    text_cols = classified["tasks"] + classified["notes"] + classified["other"]
-    criteria = _criteria(rules)
-    raw_names: list[str] = []
-    actions: list[dict[str, Any]] = []
+def _finish_actions(
+    actions: list[dict[str, Any]],
+    loaded: dict[str, Any],
+    rules: dict[str, Any],
+    peer: dict[str, Any],
+    *,
+    source: str,
+    notes: str = "",
+) -> dict[str, Any]:
+    checked = validate_scored_actions(actions, loaded, rules, peer["student_columns"])
+    if checked.get("status") != "ok":
+        return checked
+    return {
+        "status": "ok",
+        "source": source,
+        "roster": checked["roster"],
+        "actions": checked["actions"],
+        "max_score": 10.0,
+        "rubric_title": rules.get("rubric_title") or "Uploaded rubric",
+        "alias_map": checked["alias_map"],
+        "notes": notes,
+    }
 
+
+def _heuristic_extract(loaded: dict[str, Any], rules: dict[str, Any], peer: dict[str, Any]) -> dict[str, Any]:
+    criteria = _criteria(rules)
+    if not criteria:
+        return pipeline_error("invalid_actions", "No rubric criteria are available, so the peer review cannot be scored.")
+
+    name_cols = peer["student_columns"]
+    text_cols = peer["evidence_columns"]
+    actions: list[dict[str, Any]] = []
     for row in loaded.get("rows") or []:
         cells: dict[str, str] = row["cells"]
-        people = [cells[col] for col in name_cols if cells.get(col)]
-        raw_names.extend(people)
-        student = people[-1] if people else ""
-        if not student:
-            continue
+        student = next((cells[col] for col in name_cols if cells.get(col)), "")
         evidence = " ".join(cells[col] for col in text_cols if cells.get(col)).strip()
+        if not student or not evidence:
+            continue
+        matched = _match_criteria(evidence, criteria)
+        if not matched:
+            continue
         score = _score_from_text(evidence)
-        for criterion in _match_criteria(evidence, criteria):
+        for criterion in matched:
             actions.append(
                 ScoredAction(
                     student_name=student,
@@ -144,21 +167,8 @@ def _heuristic_extract(loaded: dict[str, Any], rules: dict[str, Any]) -> dict[st
             )
 
     if not actions:
-        return {"status": "error", "reason": "unreadable_data", "message": "No student names or review text could be extracted."}
-
-    alias_map = cluster_names(raw_names + [row["student_name"] for row in actions])
-    for action in actions:
-        action["student_name"] = alias_map.get(action["student_name"], action["student_name"])
-    roster = sorted({row["student_name"] for row in actions})
-    return {
-        "status": "ok",
-        "source": "heuristic",
-        "roster": roster,
-        "actions": actions,
-        "max_score": 10.0,
-        "rubric_title": rules.get("rubric_title") or "Uploaded rubric",
-        "alias_map": alias_map,
-    }
+        return pipeline_error("invalid_actions", NO_GROUNDED_ACTIONS)
+    return _finish_actions(actions, loaded, rules, peer, source="heuristic")
 
 
 def _llm_extract(csv_text: str, rules: dict[str, Any]) -> tuple[dict[str, Any] | None, int]:
@@ -178,23 +188,9 @@ def _llm_extract(csv_text: str, rules: dict[str, Any]) -> tuple[dict[str, Any] |
         payload = result.model_dump()
         if not payload.get("actions"):
             return None, 0
-        names = [item["student_name"] for item in payload["actions"]]
-        alias_map = cluster_names(names)
-        for item in payload["actions"]:
-            item["student_name"] = alias_map.get(item["student_name"], item["student_name"])
-            item["score"] = 10.0 if item["score"] >= 8 else 5.0 if item["score"] >= 4 else 0.0
-        return {
-            "status": "ok",
-            "source": "llm",
-            "roster": sorted({item["student_name"] for item in payload["actions"]}),
-            "actions": payload["actions"],
-            "max_score": 10.0,
-            "rubric_title": rules.get("rubric_title") or "Uploaded rubric",
-            "alias_map": alias_map,
-            "notes": payload.get("notes") or "",
-        }, 0
+        return payload, 0
     except Exception as exc:  # noqa: BLE001
-        log_event("semantic_llm_failed", error=str(exc))
+        log_event("semantic_llm_failed", error=type(exc).__name__)
         return None, 0
 
 
@@ -207,12 +203,32 @@ def extract_scored_actions(csv_text: str, extracted_rules: dict[str, Any] | None
     loaded = load_unstructured_csv(csv_text)
     if loaded.get("status") == "error":
         return loaded
-    llm_result, tokens = _llm_extract(csv_text, rules)
-    if llm_result:
-        llm_result["token_usage"] = tokens
-        log_event("semantic_extract", source="llm", actions=len(llm_result["actions"]), roster=llm_result["roster"])
-        return llm_result
-    heuristic = _heuristic_extract(loaded, rules)
+
+    peer = validate_peer_review_csv(loaded)
+    if peer.get("status") != "ok":
+        log_event("csv_rejected", reason=peer.get("reason"))
+        return peer
+    if not _criteria(rules):
+        return pipeline_error("invalid_actions", "No rubric criteria are available, so the peer review cannot be scored.")
+
+    llm_payload, tokens = _llm_extract(csv_text, rules)
+    if llm_payload:
+        finished = _finish_actions(
+            llm_payload.get("actions") or [],
+            loaded,
+            rules,
+            peer,
+            source="llm",
+            notes=llm_payload.get("notes") or "",
+        )
+        finished["token_usage"] = tokens
+        if finished.get("status") == "error":
+            log_event("semantic_actions_rejected", reason=finished.get("message"))
+            return finished
+        log_event("semantic_extract", source="llm", actions=len(finished["actions"]), roster=finished["roster"])
+        return finished
+
+    heuristic = _heuristic_extract(loaded, rules, peer)
     heuristic["token_usage"] = tokens
     log_event(
         "semantic_extract",

@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import json
 from typing import Any
 
-from app.config import get_settings
 from app.core.logging import log_event
 from app.graph.state import AgentState
 from app.graph.tools.vision import extract_rubric_from_image
@@ -20,43 +18,31 @@ def vision_extractor_node(state: AgentState) -> dict[str, Any]:
 
     if result.get("status") == "error":
         failures += 1
-        limit = get_settings().max_vision_failures
-        halt = failures >= limit
-        log_event("node_vision", status="error", failures=failures, reason=result.get("message"))
-        payload: dict[str, Any] = {
-            "extracted_rules": result,
+        reason = result.get("reason") or "unreadable_data"
+        message = result.get("message") or "The screenshot could not be read."
+        log_event("node_vision", status="error", failures=failures, reason=reason)
+        return {
+            "extracted_rules": {"status": "error", "reason": reason, "message": message},
             "vision_failures": failures,
             "token_usage": tokens,
-            "rubric_image_base64": "" if halt else image,
-            "current_errors": [result.get("message") or "unreadable_data"],
-            "audit_trail": [
-                {
-                    "step": 1,
-                    "title": "Read rubric",
-                    "detail": result.get("message") or "The screenshot could not be read.",
-                    "ok": False,
-                }
-            ],
+            "rubric_image_base64": "",
+            "halt_reason": reason,
+            "current_errors": [message],
+            "audit_trail": [{"step": 1, "title": "Read rubric", "detail": message, "ok": False}],
             "traces": [
                 {
                     "node": "vision_extractor",
-                    "payload": result,
+                    "payload": {"status": "error", "reason": reason, "message": message},
                     "ast": {"node_type": "VisionExtractor", "dump": "extract_rubric_from_image(image)"},
                 }
             ],
         }
-        if halt:
-            payload["halt_reason"] = "unreadable_data"
-        return payload
 
     criteria = result.get("criteria") or []
-    if result.get("source", "").startswith("offline"):
-        detail = "Screenshot passed a readability check. Criterion labels will be bound from the CSV."
-    else:
-        detail = (
-            f"Read the rubric screenshot and extracted {len(criteria)} grading "
-            f"{'criterion' if len(criteria) == 1 else 'criteria'}."
-        )
+    detail = (
+        f"Checked the screenshot and extracted {len(criteria)} grading "
+        f"{'criterion' if len(criteria) == 1 else 'criteria'}."
+    )
     log_event("node_vision", status="ok", criteria=len(criteria), source=result.get("source"))
     return {
         "extracted_rules": result,

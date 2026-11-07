@@ -28,7 +28,15 @@ npm run dev
 
 Open http://localhost:3000
 
-Optional: set `OPENAI_API_KEY` in `backend/.env` to use GPT-4o vision on the rubric screenshot. Without a key, the screenshot is quality-checked and criterion labels are bound from the CSV.
+Set `OPENAI_API_KEY` in `backend/.env` before uploading. Rubric verification calls the vision model and will not invent criteria when the key is missing or the request fails. Restart the backend after changing the key.
+
+The pipeline checks meaning, not only the file type:
+
+- The screenshot must be a readable grading rubric with real criteria and a scoring scale. Photos, receipts, and unrelated screenshots are rejected.
+- The CSV must identify a student and contain task or peer-feedback text. Inventory, weather, and employee tables are rejected. Column names can vary (`Student`, `Reviewee`, `Team Member`, `Tasks Completed`, `Peer Feedback`).
+- Each score must use 0, 5, or 10, name a student from the CSV, use a criterion from the rubric, and be supported by that review. Invalid results stop before calculation and are not published.
+
+Nothing is saved until you approve the percentages.
 
 ## Sample files
 

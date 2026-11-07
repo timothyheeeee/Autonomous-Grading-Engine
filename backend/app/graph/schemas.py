@@ -24,6 +24,16 @@ class ExtractedRules(BaseModel):
     source: str = "vision"
 
 
+class RubricAssessment(BaseModel):
+    """What the vision model claims it saw. A true flag is not proof of a rubric."""
+
+    is_valid_rubric: bool = False
+    reason: str = ""
+    rubric_title: str = ""
+    criteria: list[RubricCriterion] = Field(default_factory=list)
+    scale_max: float | None = None
+
+
 class ScoredAction(BaseModel):
     student_name: str
     criterion: str

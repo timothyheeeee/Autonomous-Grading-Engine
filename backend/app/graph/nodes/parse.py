@@ -56,7 +56,7 @@ def semantic_parser_node(state: AgentState) -> dict[str, Any]:
             "dynamic_roster": [],
             "injection_detections": detections,
             "token_usage": tokens,
-            "halt_reason": "unreadable_data",
+            "halt_reason": extracted.get("reason") or "unreadable_data",
             "current_errors": [extracted.get("message") or "unreadable_data"],
             "audit_trail": [
                 {

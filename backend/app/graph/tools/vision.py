@@ -6,22 +6,29 @@ from typing import Any
 
 import numpy as np
 from PIL import Image
-from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.core.logging import log_event
-from app.graph.schemas import ExtractedRules, Unreadable
+from app.graph.schemas import RubricAssessment, Unreadable
+from app.graph.tools.validation import (
+    VISION_REQUEST_FAILED,
+    VISION_UNCONFIGURED,
+    pipeline_error,
+    validate_rubric_assessment,
+)
 
-VISION_PROMPT = """You are reading a university grading-rubric screenshot.
-Extract the rubric title, the numeric scale maximum, and every criterion name.
-Return structured rules only. Do not score students. Do not invent counts.
-If the image is blank, blurry, or not a rubric, you must fail.
+VISION_PROMPT = """You are checking a university grading-rubric screenshot.
+
+Set is_valid_rubric to true only when the image itself shows an assessment rubric:
+named grading criteria and a scoring scale. Accept different criterion names and layouts.
+
+Set is_valid_rubric to false for photographs, landscapes, food, receipts, invoices,
+website screenshots, blank pages, and text that is not a grading rubric.
+
+When it is a rubric, copy the visible title, the scale maximum, and each criterion
+name with its description. When it is not, leave criteria empty and explain why in reason.
+Never invent criteria, titles, or a scale that are not visible. Do not score students.
 """
-
-
-class VisionInput(BaseModel):
-    image_base64: str
-    mime: str = "image/png"
 
 
 def _decode_image(image_base64: str) -> Image.Image:
@@ -46,33 +53,17 @@ def assess_image_quality(image_base64: str) -> dict[str, Any] | None:
     return None
 
 
-def _offline_rules() -> dict[str, Any]:
-    from app.graph.schemas import RubricCriterion
-
-    return ExtractedRules(
-        rubric_title="Uploaded rubric screenshot",
-        scale_max=10.0,
-        criteria=[
-            RubricCriterion(name="Collaboration", description="Works reliably with peers and shares the load"),
-            RubricCriterion(name="Communication", description="Clear written and verbal scientific communication"),
-            RubricCriterion(name="Technical Implementation", description="Delivers working technical work"),
-            RubricCriterion(name="Contribution", description="Completes assigned tasks"),
-            RubricCriterion(name="Professionalism", description="Prepared, respectful, and on time"),
-        ],
-        source="offline_quality_checked_screenshot",
-    ).model_dump()
-
-
-def _llm_rules(image_base64: str, mime: str) -> tuple[dict[str, Any] | None, int]:
+def _llm_assess(image_base64: str, mime: str) -> tuple[RubricAssessment | None, str | None]:
+    """Return (assessment, failure). failure is 'unconfigured', 'request_failed', or None."""
     settings = get_settings()
     if not settings.openai_api_key:
-        return None, 0
+        return None, "unconfigured"
     try:
         from langchain_core.messages import HumanMessage
         from langchain_openai import ChatOpenAI
 
         llm = ChatOpenAI(api_key=settings.openai_api_key, model=settings.vision_model, temperature=0)
-        structured = llm.with_structured_output(ExtractedRules)
+        structured = llm.with_structured_output(RubricAssessment)
         payload = image_base64.split(",", 1)[-1]
         message = HumanMessage(
             content=[
@@ -81,23 +72,30 @@ def _llm_rules(image_base64: str, mime: str) -> tuple[dict[str, Any] | None, int
             ]
         )
         result = structured.invoke([message])
-        data = result.model_dump()
-        data["source"] = "gpt_vision"
-        return data, 0
+        if isinstance(result, RubricAssessment):
+            return result, None
+        return RubricAssessment.model_validate(result), None
     except Exception as exc:  # noqa: BLE001
-        log_event("vision_llm_failed", error=str(exc))
-        return None, 0
+        log_event("vision_llm_failed", error=type(exc).__name__)
+        return None, "request_failed"
 
 
 def extract_rubric_from_image(image_base64: str, mime: str = "image/png") -> dict[str, Any]:
     quality = assess_image_quality(image_base64)
     if quality:
         return quality
-    llm_result, tokens = _llm_rules(image_base64, mime)
-    if llm_result and llm_result.get("criteria"):
-        llm_result["token_usage"] = tokens
-        return llm_result
-    offline = _offline_rules()
-    offline["token_usage"] = tokens
-    log_event("vision_offline_fallback", reason="llm_unavailable_or_empty")
-    return offline
+
+    assessment, failure = _llm_assess(image_base64, mime)
+    if failure == "unconfigured":
+        log_event("vision_rejected", reason="vision_unavailable")
+        return pipeline_error("vision_unavailable", VISION_UNCONFIGURED)
+    if failure or assessment is None:
+        log_event("vision_rejected", reason="vision_request_failed")
+        return pipeline_error("vision_unavailable", VISION_REQUEST_FAILED)
+
+    validated = validate_rubric_assessment(assessment)
+    if validated.get("status") == "error":
+        log_event("vision_rejected", reason="invalid_rubric", model_reason=assessment.reason)
+        return validated
+    validated["token_usage"] = 0
+    return validated

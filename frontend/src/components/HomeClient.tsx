@@ -15,6 +15,23 @@ const NODE_COPY: Record<string, string> = {
   halt: "Stopped.",
 };
 
+const ERROR_COPY: Record<string, string> = {
+  invalid_rubric:
+    "The uploaded image does not appear to contain a grading rubric. Please upload a screenshot showing assessment criteria.",
+  invalid_csv:
+    "The uploaded CSV does not appear to contain student peer-review information. Please check the file and try again.",
+  vision_unavailable: "Rubric verification is unavailable because the vision model is not configured.",
+};
+
+function pipelineErrorMessage(error: PipelineState["error"]): string {
+  const message = error?.message?.trim() ?? "";
+  if (message && message !== "unreadable_data" && message !== error?.reason && !message.includes("Traceback")) {
+    return message;
+  }
+  if (error?.reason && ERROR_COPY[error.reason]) return ERROR_COPY[error.reason];
+  return "The upload could not be validated. Check the rubric screenshot and peer-review CSV.";
+}
+
 export default function HomeClient() {
   const [mounted, setMounted] = useState(false);
   const [csv, setCsv] = useState<File | null>(null);
@@ -152,7 +169,7 @@ export default function HomeClient() {
             Submit
           </button>
           {state?.status === "error" ? (
-            <p className="text-sm text-red-600">{state.error?.message || "Could not read that upload."}</p>
+            <p className="text-sm text-red-600">{pipelineErrorMessage(state.error)}</p>
           ) : null}
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
         </section>

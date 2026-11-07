@@ -1,17 +1,34 @@
 from io import BytesIO
+from types import SimpleNamespace
 
 from langgraph.checkpoint.memory import MemorySaver
 from PIL import Image, ImageDraw, ImageFont
 
 from app.config import BACKEND_ROOT
 from app.core.sanitization import sanitize_csv_payload
+from app.db.session import init_db
 from app.graph.compile import build_graph
+from app.graph.schemas import RubricAssessment, RubricCriterion
 from app.graph.tools.calculator import calculate_normalized_percentages
 from app.graph.tools.entities import cluster_names
 from app.graph.tools.semantic import extract_scored_actions
+from app.graph.tools.validation import VISION_UNCONFIGURED
 from app.graph.tools.vision import assess_image_quality, extract_rubric_from_image
 
 UNSTRUCTURED = (BACKEND_ROOT / "data" / "sample_peer_reviews.csv").read_text(encoding="utf-8")
+RULES = {
+    "rubric_title": "Group Project Rubric",
+    "scale_max": 10,
+    "criteria": [
+        {"name": "Collaboration", "description": "Works reliably with peers"},
+        {"name": "Communication", "description": "Clear written and verbal communication"},
+        {"name": "Technical Implementation", "description": "Delivers working technical work"},
+        {"name": "Contribution", "description": "Completes assigned tasks"},
+        {"name": "Professionalism", "description": "Prepared, respectful, and on time"},
+        {"name": "Data Wrangling", "description": "Cleans and joins source data"},
+        {"name": "Reproducibility", "description": "Work can be rerun from the README"},
+    ],
+}
 
 
 def _png_bytes(width: int, height: int, text: bool = True, fill: str = "white") -> bytes:
@@ -49,7 +66,7 @@ def test_dynamic_name_clustering_from_csv_only():
 def test_semantic_extract_does_not_need_criterion_or_score_columns():
     assert "criterion" not in UNSTRUCTURED.casefold()
     assert "score" not in UNSTRUCTURED.casefold()
-    parsed = extract_scored_actions(UNSTRUCTURED, {"scale_max": 10, "criteria": []})
+    parsed = extract_scored_actions(UNSTRUCTURED, RULES)
     assert parsed["status"] == "ok"
     assert "Timothy He" in parsed["roster"]
     assert "Ruby Yang" in parsed["roster"]
@@ -66,7 +83,7 @@ def test_parser_unreadable_without_names():
 
 
 def test_calculator_uses_llm_json_only():
-    parsed = extract_scored_actions(UNSTRUCTURED, {"scale_max": 10, "criteria": []})
+    parsed = extract_scored_actions(UNSTRUCTURED, RULES)
     result = calculate_normalized_percentages(
         parsed["actions"],
         "c1",
@@ -93,12 +110,45 @@ def test_blurry_image_is_unreadable():
     assert result["reason"] == "unreadable_data"
 
 
-def test_readable_screenshot_extracts_rules():
-    result = extract_rubric_from_image(_b64(_png_bytes(640, 400, text=True)))
-    assert result["status"] == "ok"
+def _rubric_assessment() -> RubricAssessment:
+    return RubricAssessment(
+        is_valid_rubric=True,
+        reason="The image shows named criteria and a 10-point scale.",
+        rubric_title="Group Project Rubric",
+        scale_max=10,
+        criteria=[RubricCriterion(name=item["name"], description=item["description"]) for item in RULES["criteria"]],
+    )
 
 
-def test_graph_pauses_before_save():
+def _offline_settings() -> SimpleNamespace:
+    return SimpleNamespace(openai_api_key="", openai_model="gpt-4o-mini", vision_model="gpt-4o", max_vision_failures=2)
+
+
+def test_readable_screenshot_is_not_assigned_a_rubric_without_a_model(monkeypatch):
+    monkeypatch.setattr("app.graph.tools.vision.get_settings", _offline_settings)
+    image = _b64(_png_bytes(640, 400, text=True))
+    assert assess_image_quality(image) is None
+    result = extract_rubric_from_image(image)
+    assert result["status"] == "error"
+    assert result["reason"] == "vision_unavailable"
+    assert result["message"] == VISION_UNCONFIGURED
+    assert "criteria" not in result
+
+
+def test_graph_pauses_before_save(monkeypatch):
+    monkeypatch.setattr("app.graph.tools.vision._llm_assess", lambda image, mime: (_rubric_assessment(), None))
+    monkeypatch.setattr("app.graph.tools.semantic.get_settings", _offline_settings)
+    monkeypatch.setattr("app.config.get_settings", _offline_settings)
+    init_db()
+    from app.db.models import PublishedMetric
+    from app.db.session import SessionLocal
+
+    db = SessionLocal()
+    try:
+        before = db.query(PublishedMetric).count()
+    finally:
+        db.close()
+
     graph = build_graph(MemorySaver())
     config = {"configurable": {"thread_id": "ux-hitl"}, "recursion_limit": 8}
     result = graph.invoke(
@@ -127,3 +177,8 @@ def test_graph_pauses_before_save():
     actions = (result.get("parsed_actions") or {}).get("actions") or []
     assert actions
     assert all("student_name" in row and "score" in row for row in actions)
+    db = SessionLocal()
+    try:
+        assert db.query(PublishedMetric).count() == before
+    finally:
+        db.close()

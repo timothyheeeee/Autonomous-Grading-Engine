@@ -50,6 +50,15 @@ def _snapshot_run(thread_id: str, correlation_id: str, status: str, payload: dic
         db.close()
 
 
+def _public_error(values: dict[str, Any]) -> dict[str, str]:
+    reason = str(values.get("halt_reason") or "unreadable_data")
+    raw = values.get("current_errors") or []
+    message = raw[0] if raw else "The upload could not be validated."
+    if not isinstance(message, str) or "Traceback" in message or message == reason:
+        message = "The upload could not be validated. Check the rubric screenshot and peer-review CSV."
+    return {"status": "error", "reason": reason, "message": message}
+
+
 def _derive_status(thread_id: str, values: dict[str, Any], next_nodes: tuple[str, ...] | list[str]) -> str:
     nxt = list(next_nodes or [])
     if values.get("hitl_approved") and not nxt:
@@ -87,11 +96,7 @@ def serialize_run(thread_id: str, values: dict[str, Any], status: str, next_node
         "dynamic_roster": values.get("dynamic_roster") or [],
         "extracted_rules": {k: v for k, v in rules.items() if k != "image"} if rules else None,
         "percentages": metrics if metrics.get("status") == "ok" else None,
-        "error": (
-            {"status": "error", "reason": "unreadable_data", "message": (values.get("current_errors") or ["unreadable_data"])[0]}
-            if status == "error"
-            else None
-        ),
+        "error": _public_error(values) if status == "error" else None,
         "injection_detections": values.get("injection_detections") or [],
         "traces": values.get("traces") or [],
         "hitl_approved": bool(values.get("hitl_approved")),
